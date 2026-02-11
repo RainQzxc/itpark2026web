@@ -1,0 +1,13 @@
+# Бүх хавтас доторх node_modules-ийг хаах
+**/node_modules/
+node_modules/
+
+# Бүх хавтас доторх .env файлуудыг хаах
+**/.env
+.env
+
+# Бусад хэрэгцээгүй файлууд
+dist/
+build/
+.DS_Store
+*.log

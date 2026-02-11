@@ -1,0 +1,152 @@
+/* Sidebar Үндсэн загвар */
+.side-bar {
+  width: 280px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  /* Чиний хүссэн градиент (цэнхэрээс ногоон руу эсвэл өөрийнхөөрөө сольж болно) */
+  background: linear-gradient(90deg, #09E69A, #0E00A7);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+}
+
+.sub-btn, .sub-item-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  color: #FFFFFF !important; /* ТОД ЦАГААН */
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  gap: 12px;
+}
+
+.sub-btn:hover, .sub-item-link:hover, .active-link {
+  background: #252525;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* User Profile (Скриншот дээрх шиг) */
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
+.avatar img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #333;
+}
+
+.user-info .role {
+  display: block;
+  font-size: 10px;
+  color: #666;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.user-info .name {
+  color: #eee;
+  font-size: 14px;
+}
+
+/* Дэд цэсийг холбох "Мөчир" шугам */
+.sub-menu-wrapper {
+  display: none;
+  margin-left: 28px;
+  border-left: 1px solid #333; /* Босоо шугам */
+  padding-left: 10px;
+}
+
+.sub-menu-wrapper.show {
+  display: block;
+}
+
+.sub-item {
+  display: block;
+  padding: 10px 15px;
+  color: #777;
+  text-decoration: none;
+  font-size: 13.5px;
+  position: relative;
+  transition: 0.2s;
+}
+
+/* Хэвтээ шугам */
+.sub-item::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  width: 10px;
+  height: 1px;
+  background: #333;
+}
+
+.sub-item:hover {
+  color: #fff;
+}
+
+/* Идэвхтэй цэсний загвар */
+.active-link, .active-parent {
+  background: #222;
+  color: #fff !important;
+  border-radius: 12px;
+}
+
+.sub-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px;
+  color: #999;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+/* Layout-ийн байрлал */
+#content-area {
+  margin-left: 280px; /* Sidebar-ын өргөн */
+  width: calc(100% - 280px);
+  min-height: 100vh;
+  background-color: #FFFFFF; /* Цагаан дэвсгэр */
+  color: #1a1c23; /* Хар текст */
+  padding: 40px 60px;
+}
+
+#content-area h1, 
+#content-area h2, 
+#content-area h3, 
+#content-area p, 
+#content-area label {
+  color: #1a1c23 !important; /* Бүх бичиг хар */
+}
+#content-area input, 
+#content-area textarea, 
+#content-area select {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+#content-area input:focus {
+  border-color: #3b82f6;
+  background: #ffffff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}

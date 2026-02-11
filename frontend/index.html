@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="mn">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- favicon -->
+    <link rel="icon" href="/images/002.png" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="IT Park Mongolia" />
+    <title>IT Park</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5Y7LP53G5N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+      gtag("config", "G-5Y7LP53G5N");
+    </script>
+
+    <!-- model-viewer (GLB) -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+    <!-- lottie -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    <!-- Template CSS (public/css) -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/vendors.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/custom.css" />
+
+    <!-- (хэрэгтэй бол) -->
+    <link rel="stylesheet" href="/css/swiper.css" />
+    <link rel="stylesheet" href="/css/swiper-custom-1.css" />
+    <link rel="stylesheet" href="/css/news.css" />
+
+    <!-- color scheme -->
+    <link id="colors" rel="stylesheet" href="/css/colors/scheme-01.css" />
+
+    <!-- Icon fonts (FA6) -->
+    <link rel="stylesheet" href="/fonts/fontawesome6/css/fontawesome.css" />
+    <link rel="stylesheet" href="/fonts/fontawesome6/css/brands.css" />
+    <link rel="stylesheet" href="/fonts/fontawesome6/css/solid.css" />
+
+    <!-- other icon fonts (хэрэгтэй бол) -->
+    <link rel="stylesheet" href="/fonts/elegant_font/HTML_CSS/style.css" />
+    <link rel="stylesheet" href="/fonts/et-line-font/style.css" />
+    <link rel="stylesheet" href="/fonts/icofont/icofont.min.css" />
+  </head>
+
+  <body class="dark-scheme hero-full">
+    <div id="root"></div>
+
+    <!-- ✅ Template JS (public/js) — ЭХЭЛЖ load хийнэ (defer БИШ) -->
+    <script src="/js/vendors.js"></script>
+    <script src="/js/designesia.js"></script>
+    <script src="/js/countdown-custom.js"></script>
+    <script src="/js/custom-marquee.js"></script>
+
+    <!-- ⚠️ index.js ихэвчлэн SPA дээр мөргөлддөг — эхлээд унтраагаад шалга -->
+    <!-- <script src="/js/index.js"></script> -->
+
+    <!-- ✅ React/Vite entry — ХАМГИЙН СҮҮЛД -->
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
