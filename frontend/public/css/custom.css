@@ -191,6 +191,15 @@ body,
 .menu-toggle {
   display: none;
 }
+
+.mobile-nav-row {
+  display: contents;
+}
+
+.mobile-submenu-toggle {
+  display: none;
+}
+
 #section-hero img.w-400px {
   width: 400px;        /* desktop */
   max-width: 100%;     /* дэлгэцнээс хэтрэхгүй */
@@ -1296,9 +1305,17 @@ button:hover {
 
   /* 🍔 Burger icon */
   .menu-toggle {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     right: 25px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
     font-size: 28px;
     color: #fff;
     cursor: pointer;
@@ -1345,6 +1362,34 @@ button:hover {
     text-align: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     padding-bottom: 10px;
+  }
+
+  .mobile-nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .mobile-submenu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  .mobile-submenu-toggle:hover,
+  .mobile-submenu-toggle:focus {
+    border-color: rgba(9, 230, 154, 0.65);
+    color: #09E69A;
   }
 
   .itp-mainnav ul li:last-child {
