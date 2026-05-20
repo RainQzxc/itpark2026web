@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
+const VIRTUAL_ZONE_URL = "https://e-business.mn/home";
+
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileDropdown, setMobileDropdown] = useState(null);
@@ -33,12 +35,11 @@ export default function Header() {
     <header className="itp-header">
       <div className="itp-nav-container">
         <div className="itp-logo">
-          <Link to="/">
+          <Link to="/" onClick={closeMobileMenu}>
             <img src="/images/002.png" alt="IT Park Logo" />
           </Link>
         </div>
 
-        {/* 🌐 Toggle icon (дараа нь mobile menu logic нэмнэ) */}
         <button
           className={`menu-toggle ${mobileOpen ? "is-open" : ""}`}
           id="menu-toggle"
@@ -115,26 +116,29 @@ export default function Header() {
               <div className="itp-megamenu apple-style">
                 <div className="astanahub-grid">
                   <Link to="/training-center" className="itp-mega-icon-card">
-                    <h4>Мэргэшүүлэх сургалт </h4>
+                    <h4>Мэргэшүүлэх сургалт</h4>
                   </Link>
 
                   <Link to="/it-engineer-exam" className="itp-mega-icon-card">
                     <h4>
-                      Мэдээллийн технологийн<br />
+                      Мэдээллийн технологийн
+                      <br />
                       <span className="sub-line">инженерийн шалгалт</span>
                     </h4>
                   </Link>
 
                   <Link to="/it-practical-skill-exam" className="itp-mega-icon-card">
                     <h4>
-                      Компьютерын хэрэглээний<br />
+                      Компьютерын хэрэглээний
+                      <br />
                       <span className="sub-line">гэрчилгээ олгох шалгалт</span>
                     </h4>
                   </Link>
 
                   <Link to="/computer-usage-exam" className="itp-mega-icon-card">
                     <h4>
-                      Мэдээллийн технологийн практик<br />
+                      Мэдээллийн технологийн практик
+                      <br />
                       <span className="sub-line">ур чадварын шалгалт</span>
                     </h4>
                   </Link>
@@ -145,17 +149,18 @@ export default function Header() {
             <li className="itp-nav-item">
               <Link to="/rent">Түрээс</Link>
             </li>
+
           </ul>
         </nav>
 
         <div className="de-flex-col">
-          <a className="btn-main mx-2 fx-slide btn-swap" href="#">
+          <a
+            className="btn-main mx-2 fx-slide btn-swap"
+            href={VIRTUAL_ZONE_URL}
+            target="_blank"
+            rel="noreferrer"
+          >
             <span>ВИРТУАЛ БҮС</span>
-          </a>
-
-          {/* анхаарах: index_en.html биш /en route болгох боломжтой */}
-          <a className="btn-main btn-line fx-slide" href="/index_en.html">
-            <span>MN</span>
           </a>
         </div>
 
@@ -172,10 +177,18 @@ export default function Header() {
                 <i className="fa-solid fa-chevron-down"></i>
               </button>
               <div className={`mobile-dropdown ${mobileDropdown === "about" ? "active" : ""}`}>
-                <Link to="/director" onClick={closeMobileMenu}>Захирлын мэндчилгээ</Link>
-                <Link to="/vision-mission" onClick={closeMobileMenu}>Алсын хараа, эрхэм зорилго</Link>
-                <Link to="/staff" onClick={closeMobileMenu}>Алба хаагчдын мэдээлэл</Link>
-                <Link to="/roadmap" onClick={closeMobileMenu}>Байгууллагын түүх</Link>
+                <Link to="/director" onClick={closeMobileMenu}>
+                  Захирлын мэндчилгээ
+                </Link>
+                <Link to="/vision-mission" onClick={closeMobileMenu}>
+                  Алсын хараа, эрхэм зорилго
+                </Link>
+                <Link to="/staff" onClick={closeMobileMenu}>
+                  Алба хаагчдын мэдээлэл
+                </Link>
+                <Link to="/roadmap" onClick={closeMobileMenu}>
+                  Байгууллагын түүх
+                </Link>
               </div>
             </div>
 
@@ -190,14 +203,24 @@ export default function Header() {
                 <i className="fa-solid fa-chevron-down"></i>
               </button>
               <div className={`mobile-dropdown ${mobileDropdown === "incubator" ? "active" : ""}`}>
-                <Link to="/incubator" onClick={closeMobileMenu}>Инкубатор</Link>
-                <Link to="/incubator-service" onClick={closeMobileMenu}>Инкубатор хөтөлбөр</Link>
-                <Link to="/incubator-program" onClick={closeMobileMenu}>Сонгон шалгаруулалт</Link>
-                <Link to="/digital-incubator" onClick={closeMobileMenu}>Бүрдүүлэх материал</Link>
+                <Link to="/incubator" onClick={closeMobileMenu}>
+                  Инкубатор
+                </Link>
+                <Link to="/incubator-service" onClick={closeMobileMenu}>
+                  Инкубатор хөтөлбөр
+                </Link>
+                <Link to="/incubator-program" onClick={closeMobileMenu}>
+                  Сонгон шалгаруулалт
+                </Link>
+                <Link to="/digital-incubator" onClick={closeMobileMenu}>
+                  Бүрдүүлэх материал
+                </Link>
               </div>
             </div>
 
-            <Link className="mobile-menu-link" to="/news" onClick={closeMobileMenu}>Мэдээ мэдээлэл</Link>
+            <Link className="mobile-menu-link" to="/news" onClick={closeMobileMenu}>
+              Мэдээ мэдээлэл
+            </Link>
 
             <div className="mobile-menu-group">
               <button
@@ -210,14 +233,33 @@ export default function Header() {
                 <i className="fa-solid fa-chevron-down"></i>
               </button>
               <div className={`mobile-dropdown ${mobileDropdown === "training" ? "active" : ""}`}>
-                <Link to="/training-center" onClick={closeMobileMenu}>Мэргэшүүлэх сургалт</Link>
-                <Link to="/it-engineer-exam" onClick={closeMobileMenu}>Инженерийн шалгалт</Link>
-                <Link to="/it-practical-skill-exam" onClick={closeMobileMenu}>Гэрчилгээ олгох шалгалт</Link>
-                <Link to="/computer-usage-exam" onClick={closeMobileMenu}>Практик ур чадварын шалгалт</Link>
+                <Link to="/training-center" onClick={closeMobileMenu}>
+                  Мэргэшүүлэх сургалт
+                </Link>
+                <Link to="/it-engineer-exam" onClick={closeMobileMenu}>
+                  Инженерийн шалгалт
+                </Link>
+                <Link to="/it-practical-skill-exam" onClick={closeMobileMenu}>
+                  Гэрчилгээ олгох шалгалт
+                </Link>
+                <Link to="/computer-usage-exam" onClick={closeMobileMenu}>
+                  Практик ур чадварын шалгалт
+                </Link>
               </div>
             </div>
 
-            <Link className="mobile-menu-link" to="/rent" onClick={closeMobileMenu}>Түрээс</Link>
+            <Link className="mobile-menu-link" to="/rent" onClick={closeMobileMenu}>
+              Түрээс
+            </Link>
+            <a
+              className="mobile-menu-link"
+              href={VIRTUAL_ZONE_URL}
+              target="_blank"
+              rel="noreferrer"
+              onClick={closeMobileMenu}
+            >
+              ВИРТУАЛ БҮС
+            </a>
           </div>
         </div>
       </div>
