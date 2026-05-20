@@ -1,53 +1,7 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-const navGroups = [
-  {
-    key: "about",
-    label: "Бидний тухай",
-    to: "/",
-    items: [
-      { label: "Захирлын мэндчилгээ", to: "/director" },
-      { label: "Алсын хараа, эрхэм зорилго", to: "/vision-mission" },
-      { label: "Алба хаагчдын мэдээлэл", to: "/staff" },
-      { label: "Байгууллагын түүх", to: "/roadmap" },
-      { label: "Хууль эрх зүй", to: "#" },
-    ],
-  },
-  {
-    key: "incubator",
-    label: "Инкубатор",
-    to: "/incubator",
-    items: [
-      { label: "Инкубатор хөтөлбөр", to: "/incubator-service" },
-      { label: "Сонгон шалгаруулалт", to: "/incubator-program" },
-      { label: "Бүрдүүлэх материал", to: "/digital-incubator" },
-      { label: "Төсөл хөтөлбөр", to: "/coworking" },
-      { label: "Хамтын оффис", to: "#" },
-    ],
-  },
-  {
-    key: "training",
-    label: "Сургалтын төв",
-    to: "/training-center",
-    items: [
-      { label: "Мэргэшүүлэх сургалт", to: "/training-center" },
-      { label: "Мэдээллийн технологийн инженерийн шалгалт", to: "/it-engineer-exam" },
-      { label: "Компьютерын хэрэглээний гэрчилгээ олгох шалгалт", to: "/it-practical-skill-exam" },
-      { label: "Мэдээллийн технологийн практик ур чадварын шалгалт", to: "/computer-usage-exam" },
-    ],
-  },
-];
-
-const simpleLinks = [
-  { label: "Мэдээ мэдээлэл", to: "/news" },
-  { label: "Түрээс", to: "/rent" },
-];
+import { useEffect } from "react";
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(null);
-
   useEffect(() => {
     const header = document.querySelector(".itp-header");
 
@@ -63,131 +17,113 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const closeMobileMenu = () => {
-    setIsMenuOpen(false);
-    setOpenDropdown(null);
-  };
-
-  const toggleDropdown = (key) => {
-    setOpenDropdown((current) => (current === key ? null : key));
-  };
-
-  const renderNavItem = (item) => {
-    if (item.to === "#") {
-      return (
-        <a href={item.to} className="itp-mega-icon-card" onClick={closeMobileMenu} key={item.label}>
-          <h4>{item.label}</h4>
-        </a>
-      );
-    }
-
-    return (
-      <Link to={item.to} className="itp-mega-icon-card" onClick={closeMobileMenu} key={item.label}>
-        <h4>{item.label}</h4>
-      </Link>
-    );
-  };
-
   return (
     <header className="itp-header">
       <div className="itp-nav-container">
         <div className="itp-logo">
-          <Link to="/" onClick={closeMobileMenu}>
+          <Link to="/">
             <img src="/images/002.png" alt="IT Park Logo" />
           </Link>
         </div>
 
-        <button
-          className="menu-toggle"
-          id="menu-toggle"
-          type="button"
-          aria-label="Цэс нээх"
-          aria-expanded={isMenuOpen}
-          onClick={() => setIsMenuOpen((value) => !value)}
-        >
-          <i className={`fa-solid ${isMenuOpen ? "fa-xmark" : "fa-bars"}`} />
-        </button>
+        {/* 🌐 Toggle icon (дараа нь mobile menu logic нэмнэ) */}
+        <div className="menu-toggle" id="menu-toggle">
+          <i className="fa-solid fa-bars"></i>
+        </div>
 
-        <nav className={`itp-mainnav ${isMenuOpen ? "active" : ""}`}>
+        <nav className="itp-mainnav">
           <ul>
-            {navGroups.slice(0, 2).map((group) => (
-              <li className="itp-nav-item has-megamenu" key={group.key}>
-                <div className="mobile-nav-row">
-                  <Link to={group.to} onClick={closeMobileMenu}>
-                    {group.label}
+            <li className="itp-nav-item has-megamenu">
+              <Link to="/">Бидний тухай</Link>
+
+              <div className="itp-megamenu apple-style">
+                <div className="astanahub-grid">
+                  <Link to="/director" className="itp-mega-icon-card">
+                    <h4>Захирлын мэндчилгээ</h4>
                   </Link>
-                  <button
-                    className="mobile-submenu-toggle"
-                    type="button"
-                    aria-label={`${group.label} дэд цэс`}
-                    aria-expanded={openDropdown === group.key}
-                    onClick={() => toggleDropdown(group.key)}
-                  >
-                    <i className={`fa-solid ${openDropdown === group.key ? "fa-chevron-up" : "fa-chevron-down"}`} />
-                  </button>
+                  <Link to="/vision-mission" className="itp-mega-icon-card">
+                    <h4>Алсын хараа, эрхэм зорилго</h4>
+                  </Link>
+                  <Link to="/staff" className="itp-mega-icon-card">
+                    <h4>Алба хаагчдын мэдээлэл</h4>
+                  </Link>
+                  <Link to="/roadmap" className="itp-mega-icon-card">
+                    <h4>Байгууллагын түүх</h4>
+                  </Link>
+                  <a href="#" className="itp-mega-icon-card">
+                    <h4>Хууль эрх зүй</h4>
+                  </a>
                 </div>
-
-                <div className="itp-megamenu apple-style">
-                  <div className="astanahub-grid">{group.items.map((item) => renderNavItem(item))}</div>
-                </div>
-
-                <div className={`mobile-dropdown ${openDropdown === group.key ? "active" : ""}`}>
-                  {group.items.map((item) =>
-                    item.to === "#" ? (
-                      <a href={item.to} onClick={closeMobileMenu} key={item.label}>
-                        {item.label}
-                      </a>
-                    ) : (
-                      <Link to={item.to} onClick={closeMobileMenu} key={item.label}>
-                        {item.label}
-                      </Link>
-                    )
-                  )}
-                </div>
-              </li>
-            ))}
-
-            <li className="itp-nav-item">
-              <Link to={simpleLinks[0].to} onClick={closeMobileMenu}>
-                {simpleLinks[0].label}
-              </Link>
+              </div>
             </li>
 
-            {navGroups.slice(2).map((group) => (
-              <li className="itp-nav-item has-megamenu" key={group.key}>
-                <div className="mobile-nav-row">
-                  <Link to={group.to} onClick={closeMobileMenu}>
-                    {group.label}
+            <li className="itp-nav-item has-megamenu">
+              <Link to="/incubator">Инкубатор</Link>
+
+              <div className="itp-megamenu apple-style">
+                <div className="astanahub-grid">
+                  <Link to="/incubator-service" className="itp-mega-icon-card">
+                    <h4>Инкубатор хөтөлбөр</h4>
                   </Link>
-                  <button
-                    className="mobile-submenu-toggle"
-                    type="button"
-                    aria-label={`${group.label} дэд цэс`}
-                    aria-expanded={openDropdown === group.key}
-                    onClick={() => toggleDropdown(group.key)}
-                  >
-                    <i className={`fa-solid ${openDropdown === group.key ? "fa-chevron-up" : "fa-chevron-down"}`} />
-                  </button>
-                </div>
 
-                <div className="itp-megamenu apple-style">
-                  <div className="astanahub-grid">{group.items.map((item) => renderNavItem(item))}</div>
-                </div>
+                  <Link to="/incubator-program" className="itp-mega-icon-card">
+                    <h4>Сонгон шалгаруулалт</h4>
+                  </Link>
 
-                <div className={`mobile-dropdown ${openDropdown === group.key ? "active" : ""}`}>
-                  {group.items.map((item) => (
-                    <Link to={item.to} onClick={closeMobileMenu} key={item.label}>
-                      {item.label}
-                    </Link>
-                  ))}
+                  <Link to="/digital-incubator" className="itp-mega-icon-card">
+                    <h4>Бүрдүүлэх материал</h4>
+                  </Link>
+
+                  <Link to="/coworking" className="itp-mega-icon-card">
+                    <h4>Төсөл хөтөлбөр</h4>
+                  </Link>
+
+                  <a href="#" className="itp-mega-icon-card">
+                    <h4>Хамтын оффис</h4>
+                  </a>
                 </div>
-              </li>
-            ))}
+              </div>
+            </li>
 
             <li className="itp-nav-item">
-              <Link to={simpleLinks[1].to} onClick={closeMobileMenu}>
-                {simpleLinks[1].label}
-              </Link>
+              <Link to="/news">Мэдээ мэдээлэл</Link>
+            </li>
+
+            <li className="itp-nav-item has-megamenu">
+              <Link to="/training-center">Сургалтын төв</Link>
+
+              <div className="itp-megamenu apple-style">
+                <div className="astanahub-grid">
+                  <Link to="/training-center" className="itp-mega-icon-card">
+                    <h4>Мэргэшүүлэх сургалт </h4>
+                  </Link>
+
+                  <Link to="/it-engineer-exam" className="itp-mega-icon-card">
+                    <h4>
+                      Мэдээллийн технологийн<br />
+                      <span className="sub-line">инженерийн шалгалт</span>
+                    </h4>
+                  </Link>
+
+                  <Link to="/it-practical-skill-exam" className="itp-mega-icon-card">
+                    <h4>
+                      Компьютерын хэрэглээний<br />
+                      <span className="sub-line">гэрчилгээ олгох шалгалт</span>
+                    </h4>
+                  </Link>
+
+                  <Link to="/computer-usage-exam" className="itp-mega-icon-card">
+                    <h4>
+                      Мэдээллийн технологийн практик<br />
+                      <span className="sub-line">ур чадварын шалгалт</span>
+                    </h4>
+                  </Link>
+                </div>
+              </div>
+            </li>
+
+            <li className="itp-nav-item">
+              <Link to="/rent">Түрээс</Link>
             </li>
           </ul>
         </nav>
@@ -197,6 +133,7 @@ export default function Header() {
             <span>ВИРТУАЛ БҮС</span>
           </a>
 
+          {/* анхаарах: index_en.html биш /en route болгох боломжтой */}
           <a className="btn-main btn-line fx-slide" href="/index_en.html">
             <span>MN</span>
           </a>
