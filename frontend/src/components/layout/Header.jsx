@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Header() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileDropdown, setMobileDropdown] = useState(null);
+
   useEffect(() => {
     const header = document.querySelector(".itp-header");
 
@@ -17,6 +20,15 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const closeMobileMenu = () => {
+    setMobileOpen(false);
+    setMobileDropdown(null);
+  };
+
+  const toggleMobileDropdown = (name) => {
+    setMobileDropdown((current) => (current === name ? null : name));
+  };
+
   return (
     <header className="itp-header">
       <div className="itp-nav-container">
@@ -27,9 +39,17 @@ export default function Header() {
         </div>
 
         {/* 🌐 Toggle icon (дараа нь mobile menu logic нэмнэ) */}
-        <div className="menu-toggle" id="menu-toggle">
-          <i className="fa-solid fa-bars"></i>
-        </div>
+        <button
+          className={`menu-toggle ${mobileOpen ? "is-open" : ""}`}
+          id="menu-toggle"
+          type="button"
+          aria-label="Цэс"
+          aria-expanded={mobileOpen}
+          onClick={() => setMobileOpen((open) => !open)}
+        >
+          <span></span>
+          <span></span>
+        </button>
 
         <nav className="itp-mainnav">
           <ul>
@@ -137,6 +157,68 @@ export default function Header() {
           <a className="btn-main btn-line fx-slide" href="/index_en.html">
             <span>MN</span>
           </a>
+        </div>
+
+        <div className={`itp-mobile-menu ${mobileOpen ? "is-open" : ""}`}>
+          <div className="itp-mobile-panel">
+            <div className="mobile-menu-group">
+              <button
+                type="button"
+                className="mobile-menu-heading"
+                aria-expanded={mobileDropdown === "about"}
+                onClick={() => toggleMobileDropdown("about")}
+              >
+                <span>Бидний тухай</span>
+                <i className="fa-solid fa-chevron-down"></i>
+              </button>
+              <div className={`mobile-dropdown ${mobileDropdown === "about" ? "active" : ""}`}>
+                <Link to="/director" onClick={closeMobileMenu}>Захирлын мэндчилгээ</Link>
+                <Link to="/vision-mission" onClick={closeMobileMenu}>Алсын хараа, эрхэм зорилго</Link>
+                <Link to="/staff" onClick={closeMobileMenu}>Алба хаагчдын мэдээлэл</Link>
+                <Link to="/roadmap" onClick={closeMobileMenu}>Байгууллагын түүх</Link>
+              </div>
+            </div>
+
+            <div className="mobile-menu-group">
+              <button
+                type="button"
+                className="mobile-menu-heading"
+                aria-expanded={mobileDropdown === "incubator"}
+                onClick={() => toggleMobileDropdown("incubator")}
+              >
+                <span>Инкубатор</span>
+                <i className="fa-solid fa-chevron-down"></i>
+              </button>
+              <div className={`mobile-dropdown ${mobileDropdown === "incubator" ? "active" : ""}`}>
+                <Link to="/incubator" onClick={closeMobileMenu}>Инкубатор</Link>
+                <Link to="/incubator-service" onClick={closeMobileMenu}>Инкубатор хөтөлбөр</Link>
+                <Link to="/incubator-program" onClick={closeMobileMenu}>Сонгон шалгаруулалт</Link>
+                <Link to="/digital-incubator" onClick={closeMobileMenu}>Бүрдүүлэх материал</Link>
+              </div>
+            </div>
+
+            <Link className="mobile-menu-link" to="/news" onClick={closeMobileMenu}>Мэдээ мэдээлэл</Link>
+
+            <div className="mobile-menu-group">
+              <button
+                type="button"
+                className="mobile-menu-heading"
+                aria-expanded={mobileDropdown === "training"}
+                onClick={() => toggleMobileDropdown("training")}
+              >
+                <span>Сургалтын төв</span>
+                <i className="fa-solid fa-chevron-down"></i>
+              </button>
+              <div className={`mobile-dropdown ${mobileDropdown === "training" ? "active" : ""}`}>
+                <Link to="/training-center" onClick={closeMobileMenu}>Мэргэшүүлэх сургалт</Link>
+                <Link to="/it-engineer-exam" onClick={closeMobileMenu}>Инженерийн шалгалт</Link>
+                <Link to="/it-practical-skill-exam" onClick={closeMobileMenu}>Гэрчилгээ олгох шалгалт</Link>
+                <Link to="/computer-usage-exam" onClick={closeMobileMenu}>Практик ур чадварын шалгалт</Link>
+              </div>
+            </div>
+
+            <Link className="mobile-menu-link" to="/rent" onClick={closeMobileMenu}>Түрээс</Link>
+          </div>
         </div>
       </div>
     </header>
