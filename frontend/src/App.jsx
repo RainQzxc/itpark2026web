@@ -1,5 +1,6 @@
 import { useLocation, useRoutes } from "react-router-dom";
 import { useEffect, useMemo } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { routes } from "./lib/routes";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
@@ -40,6 +41,7 @@ export default function App() {
 
       {/* Login болон Admin биш үед л Footer харагдана */}
       {!isAuthOrAdmin && <Footer />}
+      <Analytics />
     </div>
   );
 }
