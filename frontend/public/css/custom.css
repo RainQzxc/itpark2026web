@@ -1695,6 +1695,10 @@ button:hover {
   .de-flex-col {
     display: none;
   }
+
+  .training-page-section {
+    padding-top: 96px !important;
+  }
 }
     .location-text h3 {
     font-size: 18px !important;
