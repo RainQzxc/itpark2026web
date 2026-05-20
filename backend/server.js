@@ -77,13 +77,18 @@ const allowedOrigins = [
   "http://127.0.0.1:5173",
 ];
 
+const vercelPreviewOriginPattern = /^https:\/\/frontend-[a-z0-9-]+\.vercel\.app$/;
+
+const isAllowedOrigin = (origin) =>
+  allowedOrigins.includes(origin) || vercelPreviewOriginPattern.test(origin);
+
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow no-origin requests (development)
       if (!origin) return callback(null, true);
 
-      if (allowedOrigins.includes(origin)) {
+      if (isAllowedOrigin(origin)) {
         return callback(null, true);
       }
       
