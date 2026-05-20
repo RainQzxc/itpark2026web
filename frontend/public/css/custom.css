@@ -1696,8 +1696,8 @@ button:hover {
     display: none;
   }
 
-  .training-page-section {
-    padding-top: 96px !important;
+  .app-shell:not(.app-shell-auth) .app-main {
+    padding-top: 64px;
   }
 }
     .location-text h3 {

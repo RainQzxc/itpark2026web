@@ -160,7 +160,7 @@ export default function TrainingCenter() {
 
   return (
     <>
-      <section className="section-dark relative py-5 training-page-section">
+      <section className="section-dark relative py-5">
         <div className="container text-center">
           <h2 className="itp-page-title">🎓 Сургалтын төв</h2>
 
