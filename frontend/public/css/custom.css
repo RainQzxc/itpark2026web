@@ -158,9 +158,18 @@ body,
   margin-top: 8px;
 }
 
+.director-sticky-image {
+  position: sticky;
+  top: max(120px, calc(50vh - 250px));
+}
+
 @media (max-width: 768px) {
   .vision-page {
     padding-top: 90px;
+  }
+
+  .director-sticky-image {
+    position: static;
   }
 }
 

@@ -149,18 +149,20 @@ export default function DirectorPage() {
       >
         <div className="container">
           {/* 🎓 Director Message */}
-          <div className="row align-items-center g-5 mb-5">
+          <div className="row align-items-start g-5 mb-5 director-greeting-row">
             <div className="col-lg-5 text-center">
-              <img
-                id="d_image"
-                src={
-                  director?.image
-                    ? `${director.image}?v=${cacheBust}`
-                    : "/images/zaki.png"
-                }
-                alt="Director"
-                className="rounded-4 shadow-lg w-100"
-              />
+              <div className="director-sticky-image">
+                <img
+                  id="d_image"
+                  src={
+                    director?.image
+                      ? `${director.image}?v=${cacheBust}`
+                      : "/images/zaki.png"
+                  }
+                  alt="Director"
+                  className="rounded-4 shadow-lg w-100"
+                />
+              </div>
             </div>
 
             <div className="col-lg-7">
