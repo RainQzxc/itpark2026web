@@ -1,17 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE } from "../lib/api";
 
 
 export default function Home() {
   const navigate = useNavigate();
   const [news, setNews] = useState([]);
-
-  // API base (чи хүсвэл env болгож болно)
-  const API_BASE = useMemo(() => {
-    // dev үед backend нь localhost:5050 гэж өгсөн байсан
-    // prod дээр өөр болгох бол VITE_API_BASE ашигла
-    return import.meta.env.VITE_API_BASE || "http://localhost:5050";
-  }, []);
 
   // 1) Template js-үүд route дээр дахин init болох боломж (quick re-init)
   useEffect(() => {
@@ -274,7 +268,7 @@ export default function Home() {
                 onKeyDown={(e) => e.key === "Enter" && openNews(n._id)}
               >
                 <img
-                  src={n.image || "/images/placeholder.jpg"}
+                  src={n.image || "/images/news.jpg"}
                   alt={n.title}
                 />
                 <div className="meta">

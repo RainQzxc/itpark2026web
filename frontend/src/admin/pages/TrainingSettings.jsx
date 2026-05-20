@@ -9,7 +9,7 @@ const TrainingSettings = () => {
     title: '', shortDesc: '', startDate: '', endDate: '', price: '', 
     certificate: 'true', lunch: 'true', teacher: '', teacherBio: '', 
     requirements: '', program: '', image: ''
-  }, '/api/training');
+  }, '/api/training', { savePath: '' });
 
   useEffect(() => { fetchTrainings(); }, []);
 

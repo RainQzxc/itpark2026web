@@ -7,7 +7,7 @@ const PartnerSettings = () => {
   const [partners, setPartners] = useState([]);
   const { data, handleChange, handleUpload, handleSave, loading } = useAdminForm({
     title: 'Үндсэн Инкубатор', name: '', image: ''
-  }, '/api/partners');
+  }, '/api/partners', { savePath: '' });
 
   useEffect(() => { /* fetch partners logic */ }, []);
 

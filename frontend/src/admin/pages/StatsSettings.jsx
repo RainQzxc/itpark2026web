@@ -10,7 +10,7 @@ const StatsSettings = () => {
     activeIncubator: 0,
     currentJobs: 0,
     successfulGraduates: 0
-  }, '/api/stats');
+  }, '/api/stats', { savePath: '', saveMethod: 'PUT' });
 
   useEffect(() => { loadData(); }, []);
 

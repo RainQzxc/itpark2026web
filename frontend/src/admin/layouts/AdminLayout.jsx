@@ -42,7 +42,7 @@ const AdminLayout = () => {
         {/* Хэрэглэгчийн мэдээлэл хэсэг (Product Designer загвар) */}
         <div className="user-profile">
           <div className="avatar">
-            <img src="/images/avatar.png" alt="Admin" />
+            <img src="/images/003.png" alt="Admin" />
           </div>
           <div className="user-info">
             <span className="role">IT PARK MONGOLIA</span>

@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { API_BASE } from "../lib/api";
 
 export default function NewsDetails() {
   const { id } = useParams();
@@ -9,11 +10,6 @@ export default function NewsDetails() {
   const [related, setRelated] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
-
-  const API_BASE = useMemo(() => {
-    return import.meta.env.VITE_API_BASE || "http://localhost:5050";
-  }, []);
-
   useEffect(() => {
     const t = setTimeout(() => {
       window.dispatchEvent(new Event("load"));
@@ -93,7 +89,7 @@ export default function NewsDetails() {
               <div className="news-hero">
                 <img
                   id="detail-image"
-                  src={detail.image || "/images/placeholder.jpg"}
+                  src={detail.image || "/images/news.jpg"}
                   alt="News"
                 />
               </div>
@@ -134,7 +130,7 @@ export default function NewsDetails() {
                 tabIndex={0}
                 onKeyDown={(e) => e.key === "Enter" && navigate(`/news/${n._id}`)}
               >
-                <img src={n.image || "/images/placeholder.jpg"} alt={n.title} />
+                <img src={n.image || "/images/news.jpg"} alt={n.title} />
                 <div>
                   <h6>{n.title}</h6>
                   <small>{new Date(n.date).toLocaleDateString()}</small>

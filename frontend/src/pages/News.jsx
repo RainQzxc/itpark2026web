@@ -1,16 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE } from "../lib/api";
 
 export default function News() {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
-
-  const API_BASE = useMemo(() => {
-    return import.meta.env.VITE_API_BASE || "http://localhost:5050";
-  }, []);
-
   useEffect(() => {
     const t = setTimeout(() => {
       window.dispatchEvent(new Event("load"));
@@ -91,7 +87,7 @@ export default function News() {
                       </div>
 
                       <img
-                        src={post.image || "/images/placeholder.jpg"}
+                        src={post.image || "/images/news.jpg"}
                         className="w-100 hover-scale-1-1"
                         style={{
                           objectFit: "cover",
