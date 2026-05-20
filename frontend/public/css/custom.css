@@ -16,6 +16,115 @@
   overflow: hidden; /* доторх pseudo layer-ийг clip хийнэ */
 }
 
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1 0 auto;
+}
+
+.app-shell > footer {
+  flex-shrink: 0;
+}
+
+.app-shell-auth,
+.app-shell-auth .app-main {
+  min-height: 100vh;
+}
+
+.vision-page {
+  background: #0700a8;
+  color: #fff;
+  padding: 120px 0 80px;
+}
+
+.vision-intro {
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.vision-summary {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.vision-summary > div {
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.06);
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+
+.vision-summary h2 {
+  color: #09E69A;
+  font-size: 20px;
+  margin: 0 0 8px;
+}
+
+.vision-summary p {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.vision-table-wrap {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.05);
+}
+
+.vision-table {
+  width: 100%;
+  min-width: 980px;
+  border-collapse: collapse;
+  color: #fff;
+}
+
+.vision-table th,
+.vision-table td {
+  border: 1px solid rgba(255,255,255,.2);
+  padding: 16px;
+  vertical-align: top;
+  line-height: 1.55;
+}
+
+.vision-table th {
+  width: 130px;
+  color: #09E69A;
+  background: rgba(0,0,0,.2);
+}
+
+.vision-table .vision-value {
+  text-align: center;
+  font-weight: 700;
+  color: #fff;
+}
+
+.vision-table ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.vision-table li + li {
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .vision-page {
+    padding-top: 90px;
+  }
+}
+
 /* 🎨 Fade хийх давхарга */
 .itp-header::before {
   content: "";

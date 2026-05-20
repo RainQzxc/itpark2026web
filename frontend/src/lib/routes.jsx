@@ -24,7 +24,7 @@ import DigitalIncubator from "../pages/DigitalIncubator";
 import Staff from "../pages/Staff";
 import News from "../pages/News";
 import NewsDetails from "../pages/NewsDetails";
-import Contact from "../pages/Contact";
+import VisionMission from "../pages/Contact";
 import DirectorPage from "../pages/Director";
 import Roadmap from "../pages/Roadmap";
 import IncubatorService from "../pages/IncubatorService";
@@ -54,7 +54,8 @@ export const routes = [
   { path: "/staff", element: <Staff /> },
   { path: "/news", element: <News /> },
   { path: "/news/:id", element: <NewsDetails /> },
-  { path: "/contact", element: <Contact /> },
+  { path: "/vision-mission", element: <VisionMission /> },
+  { path: "/contact", element: <Navigate to="/vision-mission" replace /> },
   { path: "/director", element: <DirectorPage /> },
   { path: "/roadmap", element: <Roadmap /> },
   { path: "/rent", element: <RentPage /> },

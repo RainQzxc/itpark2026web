@@ -41,8 +41,8 @@ export default function Header() {
                   <Link to="/director" className="itp-mega-icon-card">
                     <h4>Захирлын мэндчилгээ</h4>
                   </Link>
-                  <Link to="/contact" className="itp-mega-icon-card">
-                    <h4>Алсын хараа, Бүтэц, зохион байгуулалт</h4>
+                  <Link to="/vision-mission" className="itp-mega-icon-card">
+                    <h4>Алсын хараа, эрхэм зорилго</h4>
                   </Link>
                   <Link to="/staff" className="itp-mega-icon-card">
                     <h4>Алба хаагчдын мэдээлэл</h4>

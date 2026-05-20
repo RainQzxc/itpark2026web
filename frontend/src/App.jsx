@@ -30,14 +30,16 @@ export default function App() {
   }, [isAuthOrAdmin]);
 
   return (
-    <>
+    <div className={isAuthOrAdmin ? "app-shell app-shell-auth" : "app-shell"}>
       {/* Login болон Admin биш үед л Header харагдана */}
       {!isAuthOrAdmin && <Header />}
-      
-      {routeElements}
+
+      <main className="app-main">
+        {routeElements}
+      </main>
 
       {/* Login болон Admin биш үед л Footer харагдана */}
       {!isAuthOrAdmin && <Footer />}
-    </>
+    </div>
   );
 }
