@@ -1,7 +1,30 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+const aboutLinks = [
+  { to: "/director", label: "Захирлын мэндчилгээ" },
+  { to: "/vision-mission", label: "Алсын хараа, эрхэм зорилго" },
+  { to: "/staff", label: "Алба хаагчдын мэдээлэл" },
+  { to: "/roadmap", label: "Байгууллагын түүх" },
+];
+
+const incubatorLinks = [
+  { to: "/incubator-service", label: "Инкубатор хөтөлбөр" },
+  { to: "/incubator-program", label: "Сонгон шалгаруулалт" },
+  { to: "/digital-incubator", label: "Бүрдүүлэх материал" },
+  { to: "/coworking", label: "Төсөл хөтөлбөр" },
+];
+
+const trainingLinks = [
+  { to: "/training-center", label: "Мэргэшүүлэх сургалт" },
+  { to: "/it-engineer-exam", label: "Мэдээллийн технологийн инженерийн шалгалт" },
+  { to: "/it-practical-skill-exam", label: "Компьютерын хэрэглээний гэрчилгээ олгох шалгалт" },
+  { to: "/computer-usage-exam", label: "Мэдээллийн технологийн практик ур чадварын шалгалт" },
+];
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   useEffect(() => {
     const header = document.querySelector(".itp-header");
 
@@ -17,113 +40,70 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen]);
+
+  const closeMenu = () => setIsMenuOpen(false);
+
+  const renderMegaLinks = (links) => (
+    <div className="itp-megamenu apple-style">
+      <div className="astanahub-grid">
+        {links.map((item) => (
+          <Link key={item.to} to={item.to} className="itp-mega-icon-card" onClick={closeMenu}>
+            <h4>{item.label}</h4>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
-    <header className="itp-header">
+    <header className={`itp-header ${isMenuOpen ? "mobile-open" : ""}`}>
       <div className="itp-nav-container">
         <div className="itp-logo">
-          <Link to="/">
+          <Link to="/" onClick={closeMenu}>
             <img src="/images/002.png" alt="IT Park Logo" />
           </Link>
         </div>
 
-        {/* 🌐 Toggle icon (дараа нь mobile menu logic нэмнэ) */}
-        <div className="menu-toggle" id="menu-toggle">
-          <i className="fa-solid fa-bars"></i>
-        </div>
+        <button
+          className="menu-toggle"
+          id="menu-toggle"
+          type="button"
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMenuOpen}
+          onClick={() => setIsMenuOpen((open) => !open)}
+        >
+          <i className={`fa-solid ${isMenuOpen ? "fa-xmark" : "fa-bars"}`}></i>
+        </button>
 
-        <nav className="itp-mainnav">
+        <nav className={`itp-mainnav ${isMenuOpen ? "active" : ""}`}>
           <ul>
             <li className="itp-nav-item has-megamenu">
-              <Link to="/">Бидний тухай</Link>
-
-              <div className="itp-megamenu apple-style">
-                <div className="astanahub-grid">
-                  <Link to="/director" className="itp-mega-icon-card">
-                    <h4>Захирлын мэндчилгээ</h4>
-                  </Link>
-                  <Link to="/vision-mission" className="itp-mega-icon-card">
-                    <h4>Алсын хараа, эрхэм зорилго</h4>
-                  </Link>
-                  <Link to="/staff" className="itp-mega-icon-card">
-                    <h4>Алба хаагчдын мэдээлэл</h4>
-                  </Link>
-                  <Link to="/roadmap" className="itp-mega-icon-card">
-                    <h4>Байгууллагын түүх</h4>
-                  </Link>
-                  <a href="#" className="itp-mega-icon-card">
-                    <h4>Хууль эрх зүй</h4>
-                  </a>
-                </div>
-              </div>
+              <Link to="/" onClick={closeMenu}>Бидний тухай</Link>
+              {renderMegaLinks(aboutLinks)}
             </li>
 
             <li className="itp-nav-item has-megamenu">
-              <Link to="/incubator">Инкубатор</Link>
-
-              <div className="itp-megamenu apple-style">
-                <div className="astanahub-grid">
-                  <Link to="/incubator-service" className="itp-mega-icon-card">
-                    <h4>Инкубатор хөтөлбөр</h4>
-                  </Link>
-
-                  <Link to="/incubator-program" className="itp-mega-icon-card">
-                    <h4>Сонгон шалгаруулалт</h4>
-                  </Link>
-
-                  <Link to="/digital-incubator" className="itp-mega-icon-card">
-                    <h4>Бүрдүүлэх материал</h4>
-                  </Link>
-
-                  <Link to="/coworking" className="itp-mega-icon-card">
-                    <h4>Төсөл хөтөлбөр</h4>
-                  </Link>
-
-                  <a href="#" className="itp-mega-icon-card">
-                    <h4>Хамтын оффис</h4>
-                  </a>
-                </div>
-              </div>
+              <Link to="/incubator" onClick={closeMenu}>Инкубатор</Link>
+              {renderMegaLinks(incubatorLinks)}
             </li>
 
             <li className="itp-nav-item">
-              <Link to="/news">Мэдээ мэдээлэл</Link>
+              <Link to="/news" onClick={closeMenu}>Мэдээ мэдээлэл</Link>
             </li>
 
             <li className="itp-nav-item has-megamenu">
-              <Link to="/training-center">Сургалтын төв</Link>
-
-              <div className="itp-megamenu apple-style">
-                <div className="astanahub-grid">
-                  <Link to="/training-center" className="itp-mega-icon-card">
-                    <h4>Мэргэшүүлэх сургалт </h4>
-                  </Link>
-
-                  <Link to="/it-engineer-exam" className="itp-mega-icon-card">
-                    <h4>
-                      Мэдээллийн технологийн<br />
-                      <span className="sub-line">инженерийн шалгалт</span>
-                    </h4>
-                  </Link>
-
-                  <Link to="/it-practical-skill-exam" className="itp-mega-icon-card">
-                    <h4>
-                      Компьютерын хэрэглээний<br />
-                      <span className="sub-line">гэрчилгээ олгох шалгалт</span>
-                    </h4>
-                  </Link>
-
-                  <Link to="/computer-usage-exam" className="itp-mega-icon-card">
-                    <h4>
-                      Мэдээллийн технологийн практик<br />
-                      <span className="sub-line">ур чадварын шалгалт</span>
-                    </h4>
-                  </Link>
-                </div>
-              </div>
+              <Link to="/training-center" onClick={closeMenu}>Сургалтын төв</Link>
+              {renderMegaLinks(trainingLinks)}
             </li>
 
             <li className="itp-nav-item">
-              <Link to="/rent">Түрээс</Link>
+              <Link to="/rent" onClick={closeMenu}>Түрээс</Link>
             </li>
           </ul>
         </nav>
@@ -133,7 +113,6 @@ export default function Header() {
             <span>ВИРТУАЛ БҮС</span>
           </a>
 
-          {/* анхаарах: index_en.html биш /en route болгох боломжтой */}
           <a className="btn-main btn-line fx-slide" href="/index_en.html">
             <span>MN</span>
           </a>
