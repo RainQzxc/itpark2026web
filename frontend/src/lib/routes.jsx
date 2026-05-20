@@ -33,6 +33,7 @@ import TrainingCenter from "../pages/TrainingCenter";
 import TrainingDetails from "../pages/TrainingDetails";
 import Login from "../pages/Login";
 import RentPage from "../pages/RentPage";
+import NotFound from "../pages/NotFound";
 
 // --- Хамгаалагч бүрэлдэхүүн хэсэг ---
 const ProtectedRoute = ({ children }) => {
@@ -87,4 +88,6 @@ export const routes = [
       { path: "rent-settings", element: <RentSettings /> }, // ✅ 2. ЗАМЫГ НЭМЭХ
     ],
   },
+  { path: "*", element: <NotFound /> },
 ];
+
