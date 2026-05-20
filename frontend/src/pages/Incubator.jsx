@@ -246,7 +246,7 @@ export default function Incubator() {
       <section className="section-dark p-0" aria-label="section">
         <div className="bg-color text-light d-flex py-4 lh-1 rot-2">
           <div className="de-marquee-list-1 wow fadeInLeft" data-wow-duration="3s">
-            <span className="fs-60 mx-3">Тал нутгийн цахим хегжлийн хурдасгуур</span>
+            <span className="fs-60 mx-3">Тал нутгийн цахим хөгжлийн хурдасгуур</span>
           </div>
         </div>
 
