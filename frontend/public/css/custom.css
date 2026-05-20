@@ -1597,23 +1597,23 @@ button:hover {
   }
 
   .mobile-dropdown {
-    display: grid;
-    grid-template-rows: 0fr;
+    display: block;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
     padding: 0 6px;
     margin: 0;
     background: transparent;
     overflow: hidden;
-    transition: grid-template-rows 0.24s ease, padding 0.24s ease;
+    transition: max-height 0.24s ease, opacity 0.2s ease, visibility 0.2s ease, padding 0.24s ease;
   }
 
   .mobile-dropdown.active {
-    display: grid;
-    grid-template-rows: 1fr;
+    display: block;
+    max-height: 280px;
+    opacity: 1;
+    visibility: visible;
     padding-bottom: 14px;
-  }
-
-  .mobile-dropdown > * {
-    min-height: 0;
   }
 
   .mobile-dropdown a {
