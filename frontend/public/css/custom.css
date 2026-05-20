@@ -158,6 +158,54 @@ body,
   margin-top: 8px;
 }
 
+.vision-mobile-cards {
+  display: none;
+}
+
+.vision-mobile-card {
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255,255,255,.06);
+}
+
+.vision-mobile-card + .vision-mobile-card {
+  margin-top: 14px;
+}
+
+.vision-mobile-card h2 {
+  margin: 0 0 16px;
+  color: #09E69A;
+  font-size: 20px;
+}
+
+.vision-mobile-card span {
+  display: block;
+  margin-bottom: 6px;
+  color: rgba(255,255,255,.72);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.vision-mobile-card p {
+  margin: 0 0 16px;
+  line-height: 1.65;
+}
+
+.vision-mobile-card ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.vision-mobile-card li {
+  line-height: 1.65;
+}
+
+.vision-mobile-card li + li {
+  margin-top: 8px;
+}
+
 .director-sticky-image {
   position: sticky;
   top: max(120px, calc(50vh - 250px));
@@ -166,6 +214,19 @@ body,
 @media (max-width: 768px) {
   .vision-page {
     padding-top: 90px;
+  }
+
+  .vision-page .container {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .vision-table-wrap {
+    display: none;
+  }
+
+  .vision-mobile-cards {
+    display: block;
   }
 
   .director-sticky-image {

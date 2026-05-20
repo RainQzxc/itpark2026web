@@ -39,13 +39,17 @@ export default function VisionMission() {
       {loading && <p style={{ color: "white" }}>Ачааллаж байна...</p>}
 
       {!loading && !data && (
-        <p style={{ color: "red" }}>Алсын хараа, эрхэм зорилгын мэдээлэл татаж чадсангүй.</p>
+        <p style={{ color: "red" }}>
+          Алсын хараа, эрхэм зорилгын мэдээлэл татаж чадсангүй.
+        </p>
       )}
 
       {data && (
         <div className="container">
           <div className="itp-block vision-intro">
-            <h1 className="itp-title">{data.page_title || "Алсын хараа, эрхэм зорилго, үнэт зүйлс, стратегийн чиглэл"}</h1>
+            <h1 className="itp-title">
+              {data.page_title || "Алсын хараа, эрхэм зорилго, үнэт зүйлс, стратегийн чиглэл"}
+            </h1>
           </div>
 
           <div className="vision-summary">
@@ -64,36 +68,64 @@ export default function VisionMission() {
           </div>
 
           {hasTable ? (
-            <div className="vision-table-wrap">
-              <table className="vision-table">
-                <tbody>
-                  <tr>
-                    <th>Үнэт зүйлс</th>
-                    {data.values.map((value) => (
-                      <td key={value} className="vision-value">{value}</td>
-                    ))}
-                  </tr>
-                  <tr>
-                    <th>Стратеги</th>
-                    {data.strategies.map((strategy) => (
-                      <td key={strategy}>{strategy}</td>
-                    ))}
-                  </tr>
-                  <tr>
-                    <th>Үндсэн чиглэл</th>
-                    {(data.directions || []).map((direction) => (
-                      <td key={direction.value}>
+            <>
+              <div className="vision-table-wrap">
+                <table className="vision-table">
+                  <tbody>
+                    <tr>
+                      <th>Үнэт зүйлс</th>
+                      {data.values.map((value) => (
+                        <td key={value} className="vision-value">
+                          {value}
+                        </td>
+                      ))}
+                    </tr>
+                    <tr>
+                      <th>Стратеги</th>
+                      {data.strategies.map((strategy) => (
+                        <td key={strategy}>{strategy}</td>
+                      ))}
+                    </tr>
+                    <tr>
+                      <th>Үндсэн чиглэл</th>
+                      {(data.directions || []).map((direction) => (
+                        <td key={direction.value}>
+                          <ul>
+                            {(direction.items || []).map((item) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                        </td>
+                      ))}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="vision-mobile-cards">
+                {data.values.map((value, index) => {
+                  const direction = data.directions?.[index];
+
+                  return (
+                    <article className="vision-mobile-card" key={value}>
+                      <h2>{value}</h2>
+                      <div>
+                        <span>Стратеги</span>
+                        <p>{data.strategies[index] || ""}</p>
+                      </div>
+                      <div>
+                        <span>Үндсэн чиглэл</span>
                         <ul>
-                          {(direction.items || []).map((item) => (
+                          {(direction?.items || []).map((item) => (
                             <li key={item}>{item}</li>
                           ))}
                         </ul>
-                      </td>
-                    ))}
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </>
           ) : (
             <>
               <div className="itp-block">
