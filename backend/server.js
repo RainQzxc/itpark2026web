@@ -72,6 +72,7 @@ const allowedOrigins = [
   "https://itpark.mn",
   "https://www.itpark.mn",
   "https://itpark2025.vercel.app",
+  "https://frontend-rainqzxcs-projects.vercel.app",
   "http://localhost:5173",
   "http://127.0.0.1:5173",
 ];
