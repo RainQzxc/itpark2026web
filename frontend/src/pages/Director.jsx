@@ -157,7 +157,7 @@ export default function DirectorPage() {
                   src={
                     director?.image
                       ? `${director.image}?v=${cacheBust}`
-                      : "/images/zaki.png"
+                      : "/images/zolzaya.jpg"
                   }
                   alt="Director"
                   className="rounded-4 shadow-lg w-100"
