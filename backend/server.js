@@ -15,6 +15,7 @@ import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
 import helmet from "helmet"; // ШИНЭ: Security headers
 import rateLimit from "express-rate-limit"; // ШИНЭ: DDoS болон Brute-force хамгаалалт
+import { validateEnv } from "./config/env.js";
 
 // ROUTES
 import adminAuthRoutes from "./routes/adminAuthRoutes.js";
@@ -28,6 +29,9 @@ import publicStaffRoutes from "./routes/publicStaffRoutes.js";
 import statsRoutes from "./routes/stats.route.js";
 import partnerRoutes from "./routes/partnerRoutes.js";
 import rentRoutes from "./routes/rentRoutes.js";
+import { rejectUnsafeBody } from "./utils/contentSecurity.js";
+
+validateEnv();
 
 // ===============================
 // ES MODULE FIX
@@ -40,6 +44,7 @@ const __dirname = path.dirname(__filename);
 // ===============================
 const app = express();
 const PORT = process.env.PORT || 5050;
+app.set("trust proxy", 1);
 
 // ===============================
 // SECURITY MIDDLEWARE (ZERO ACCESS STRATEGY)
@@ -51,7 +56,10 @@ app.use(helmet());
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 минут
   max: 100, // IP бүрт 100 хүсэлтийн хязгаар
-  message: "Too many requests from this IP, please try again after 15 minutes.",
+  message: {
+    success: false,
+    message: "Too many requests from this IP, please try again after 15 minutes.",
+  },
   standardHeaders: true,
   legacyHeaders: false,
 });
@@ -82,6 +90,15 @@ const vercelPreviewOriginPattern = /^https:\/\/frontend-[a-z0-9-]+\.vercel\.app$
 const isAllowedOrigin = (origin) =>
   allowedOrigins.includes(origin) || vercelPreviewOriginPattern.test(origin);
 
+const requireTrustedOrigin = (req, res, next) => {
+  if (["GET", "HEAD", "OPTIONS"].includes(req.method)) return next();
+
+  const origin = req.get("origin");
+  if (!origin || isAllowedOrigin(origin)) return next();
+
+  return res.status(403).json({ success: false, message: "Untrusted request origin" });
+};
+
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -98,12 +115,15 @@ app.use(
     credentials: true,
   })
 );
+app.use("/api", limiter);
+app.use("/api", requireTrustedOrigin);
 
 // ===============================
 // MIDDLEWARES
 // ===============================
 app.use(cookieParser());
-app.use(express.json({ limit: "50mb" }));
+app.use(express.json({ limit: "1mb", strict: true }));
+app.use("/api", rejectUnsafeBody);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Debug Logger
@@ -126,6 +146,29 @@ app.use("/api/alerts", alertRoutes);
 app.use("/api/stats", statsRoutes);
 app.use("/api/partners", partnerRoutes);
 app.use("/api/rent", rentRoutes);
+
+app.use((err, req, res, next) => {
+  if (!err) return next();
+
+  if (err.type === "entity.too.large") {
+    return res.status(413).json({ success: false, message: "Request body is too large" });
+  }
+
+  if (err.code === "LIMIT_FILE_SIZE") {
+    return res.status(413).json({ success: false, message: "Uploaded file is too large" });
+  }
+
+  if (err.code === "LIMIT_FILE_COUNT") {
+    return res.status(400).json({ success: false, message: "Only one file is allowed" });
+  }
+
+  if (err.message === "Unsupported file type") {
+    return res.status(400).json({ success: false, message: "Unsupported file type" });
+  }
+
+  console.error("Unhandled API error:", err);
+  return res.status(500).json({ success: false, message: "Internal server error" });
+});
 
 // ===============================
 // START SERVER

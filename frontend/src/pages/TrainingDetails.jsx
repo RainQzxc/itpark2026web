@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { API_BASE } from "../lib/api";
 import { Modal } from "bootstrap";
+import { sanitizeHtml } from "../lib/sanitizeHtml";
 
 export default function TrainingDetails() {
   const { id } = useParams();
@@ -189,7 +190,7 @@ export default function TrainingDetails() {
             <h2 className="detail-title">{t.title}</h2>
             <p
               className="detail-desc"
-              dangerouslySetInnerHTML={{ __html: t.longDesc || t.shortDesc || "" }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(t.longDesc || t.shortDesc || "") }}
             />
           </div>
         </div>
@@ -199,7 +200,7 @@ export default function TrainingDetails() {
             <h3 className="section-title">Сургалтын багш нар</h3>
             <p
               className="detail-desc"
-              dangerouslySetInnerHTML={{ __html: t.teacher || "Багшийн мэдээлэл ороогүй" }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(t.teacher || "Багшийн мэдээлэл ороогүй") }}
             />
 
             <h3 className="section-title">Тавигдах шаардлага</h3>

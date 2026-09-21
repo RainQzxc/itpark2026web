@@ -1,4 +1,5 @@
 import Rent from "../models/Rent.js";
+import { cleanText, pickFields } from "../utils/contentSecurity.js";
 
 // Бүх өрөөг авах
 export const getRooms = async (req, res) => {
@@ -27,7 +28,8 @@ export const toggleRentStatus = async (req, res) => {
 // Өрөө шинээр нэмэх (Админ гараар өрөө нэмэхэд ашиглана)
 export const addRoom = async (req, res) => {
   try {
-    const newRoom = new Rent(req.body);
+    const payload = pickFields(req.body, ["roomNumber"]);
+    const newRoom = new Rent({ roomNumber: cleanText(payload.roomNumber, 40) });
     await newRoom.save();
     res.json({ success: true, room: newRoom });
   } catch (err) {

@@ -14,7 +14,7 @@ services:
         sync: false
       - key: ADMIN_USER
         sync: false
-      - key: ADMIN_PASS
+      - key: ADMIN_PASS_HASH
         sync: false
       - key: CLOUDINARY_CLOUD_NAME
         sync: false

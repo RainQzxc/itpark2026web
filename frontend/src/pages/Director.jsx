@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { API_BASE } from "../lib/api";
+import { sanitizeHtml } from "../lib/sanitizeHtml";
 
 // Хуучин JS дээр байсан profiles array-г React дээр шууд оруулна
 const PROFILES = [
@@ -178,7 +179,7 @@ export default function DirectorPage() {
                 id="d_text"
                 style={{ fontSize: 16, lineHeight: 1.8 }}
                 dangerouslySetInnerHTML={{
-                  __html: loading ? "⏳ Уншиж байна..." : (director?.text || ""),
+                  __html: sanitizeHtml(loading ? "⏳ Уншиж байна..." : (director?.text || "")),
                 }}
               />
 

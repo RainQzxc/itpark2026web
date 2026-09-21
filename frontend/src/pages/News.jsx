@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE } from "../lib/api";
 
+const getNewsPath = (post) => `/news/${post.slug || post._id}`;
+
 export default function News() {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
@@ -42,9 +44,8 @@ export default function News() {
 
   const dayMonth = (dateStr) => {
     const d = new Date(dateStr);
-    const day = d.getDate();
-    const month = d.toLocaleString("en", { month: "short" }).toUpperCase();
-    return { day, month };
+    if (Number.isNaN(d.getTime())) return { day: "", month: "" };
+    return { day: d.getDate(), month: `${d.getMonth() + 1} сар` };
   };
 
   return (
@@ -68,10 +69,10 @@ export default function News() {
                   <div key={post._id} className="col-lg-4 col-md-6 mb-4">
                     <div
                       className="d-block hover relative rounded-20 overflow-hidden text-light"
-                      onClick={() => navigate(`/news/${post._id}`)}
+                      onClick={() => navigate(getNewsPath(post))}
                       role="button"
                       tabIndex={0}
-                      onKeyDown={(e) => e.key === "Enter" && navigate(`/news/${post._id}`)}
+                      onKeyDown={(e) => e.key === "Enter" && navigate(getNewsPath(post))}
                       style={{
                         cursor: "pointer",
                         background: "rgba(0,0,0,0.4)",
@@ -107,6 +108,23 @@ export default function News() {
                       >
                         <h4>{post.title}</h4>
                       </div>
+
+                      <button
+                        type="button"
+                        className="news-share-card-btn"
+                        aria-label="Share news"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const url = `${window.location.origin}${getNewsPath(post)}`;
+                          window.open(
+                            `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+                            "_blank",
+                            "noopener,noreferrer"
+                          );
+                        }}
+                      >
+                        <i className="fa-solid fa-share-nodes"></i>
+                      </button>
                     </div>
                   </div>
                 );

@@ -1,75 +1,82 @@
 import express from "express";
 import jwt from "jsonwebtoken";
+import rateLimit from "express-rate-limit";
+import bcrypt from "bcryptjs";
 
 const router = express.Router();
 
-/* ==============================
-       ADMIN LOGIN
-============================== */
-router.post("/login", (req, res) => {
-  const { username, password } = req.body;
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Too many login attempts. Try again after 15 minutes.",
+  },
+});
 
-  // Хөгжүүлэлтийн үед утгуудыг шалгах (Туршиж дуусаад устгаж болно)
-  console.log("Login attempt:", { 
-    receivedUser: username, 
-    receivedPass: password,
-    expectedUser: process.env.ADMIN_USER 
-  });
+const isLocalRequest = (req) =>
+  req.hostname === "localhost" || req.hostname === "127.0.0.1";
+
+const isValidAdminPassword = async (password) => {
+  if (process.env.ADMIN_PASS_HASH) {
+    return bcrypt.compare(password, process.env.ADMIN_PASS_HASH);
+  }
+
+  return password === process.env.ADMIN_PASS;
+};
+
+router.post("/login", loginLimiter, async (req, res) => {
+  const { username, password } = req.body || {};
 
   if (
-    username === process.env.ADMIN_USER &&
-    password === process.env.ADMIN_PASS
+    typeof username !== "string" ||
+    typeof password !== "string" ||
+    username.length > 128 ||
+    password.length > 256
   ) {
+    return res.status(400).json({ success: false, message: "Invalid login payload" });
+  }
+
+  if (username === process.env.ADMIN_USER && await isValidAdminPassword(password)) {
     const token = jwt.sign({ role: "admin" }, process.env.JWT_SECRET, {
       expiresIn: "2h",
     });
 
-    // Localhost эсэхийг илүү найдвартай шалгах
-    const isLocal = 
-      req.hostname === "localhost" || 
-      req.hostname === "127.0.0.1";
+    const isLocal = isLocalRequest(req);
 
     res.cookie("itpark_admin", token, {
       httpOnly: true,
-      secure: !isLocal, // Local биш бол заавал HTTPS шаардана
-      sameSite: isLocal ? "lax" : "none", // Cross-site хүсэлтэд "none" хэрэгтэй
+      secure: !isLocal,
+      sameSite: isLocal ? "lax" : "none",
       maxAge: 2 * 60 * 60 * 1000,
       path: "/",
     });
 
-    console.log("✅ Login success, cookie set.");
     return res.json({ success: true });
   }
 
-  console.log("❌ Login failed: Invalid credentials");
-  res.status(401).json({ success: false, message: "Invalid username or password" });
+  return res.status(401).json({ success: false, message: "Invalid username or password" });
 });
 
-/* ==============================
-      TOKEN CHECK
-============================== */
 router.get("/check", (req, res) => {
   const token = req.cookies?.itpark_admin;
 
   if (!token) {
-    console.log("🔍 Check: No token found");
     return res.json({ valid: false });
   }
 
   try {
     jwt.verify(token, process.env.JWT_SECRET);
-    res.json({ valid: true });
-  } catch (err) {
-    console.log("🔍 Check: Token invalid or expired");
-    res.json({ valid: false });
+    return res.json({ valid: true });
+  } catch {
+    return res.json({ valid: false });
   }
 });
 
-/* ==============================
-          LOGOUT
-============================== */
 router.post("/logout", (req, res) => {
-  const isLocal = req.hostname === "localhost" || req.hostname === "127.0.0.1";
+  const isLocal = isLocalRequest(req);
 
   res.clearCookie("itpark_admin", {
     httpOnly: true,
@@ -78,7 +85,7 @@ router.post("/logout", (req, res) => {
     path: "/",
   });
 
-  res.json({ success: true });
+  return res.json({ success: true });
 });
 
 export default router;
