@@ -1,11 +1,10 @@
 import express from "express";
-import multer from "multer";
 import cloudinary from "../config/cloudinary.js";
 import adminProtect from "../middleware/adminProtect.js"; // Хамгаалагч нэмэв
+import upload from "../middleware/multerMemory.js";
 import { getDirector, saveDirector } from "../controllers/directorController.js";
 
 const router = express.Router();
-const upload = multer({ storage: multer.memoryStorage() });
 
 /* ===============================
    GET — MongoDB Director info (Public)

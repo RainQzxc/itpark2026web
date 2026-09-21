@@ -40,6 +40,23 @@ const NewsSettings = () => {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
+  const handleContentKeyDown = (event) => {
+    if (event.key !== 'Tab') return;
+    event.preventDefault();
+
+    const target = event.currentTarget;
+    const start = target.selectionStart;
+    const end = target.selectionEnd;
+    const indent = '    ';
+    const nextValue = `${form.content.slice(0, start)}${indent}${form.content.slice(end)}`;
+
+    handleChange('content', nextValue);
+    window.requestAnimationFrame(() => {
+      target.selectionStart = start + indent.length;
+      target.selectionEnd = start + indent.length;
+    });
+  };
+
   const resetForm = () => {
     setForm(emptyForm);
     setEditId(null);
@@ -147,7 +164,15 @@ const NewsSettings = () => {
         <Input label="Short text" value={form.shortText} onChange={e => handleChange('shortText', e.target.value)} />
 
         <label>Content</label>
-        <textarea rows="6" value={form.content} onChange={e => handleChange('content', e.target.value)} />
+        <textarea
+          rows="10"
+          className="news-content-textarea"
+          value={form.content}
+          onChange={e => handleChange('content', e.target.value)}
+          onKeyDown={handleContentKeyDown}
+          placeholder={'Enter = шинэ мөр\nBlank line = шинэ paragraph\nTab = догол мөр'}
+        />
+        <p className="admin-field-hint">Blank line-ээр paragraph сална. Paragraph эхэнд Tab дарвал догол мөр болж харагдана.</p>
 
         <label>Image</label>
         <input type="file" accept="image/*" onChange={e => handleUpload(e.target.files[0])} />
@@ -166,6 +191,7 @@ const NewsSettings = () => {
             <tr>
               <th>Image</th>
               <th>Title</th>
+              <th>Slug</th>
               <th>Date</th>
               <th>Actions</th>
             </tr>
@@ -173,7 +199,7 @@ const NewsSettings = () => {
           <tbody>
             {news.length === 0 ? (
               <tr>
-                <td colSpan="4">No news yet.</td>
+                <td colSpan="5">No news yet.</td>
               </tr>
             ) : (
               news.map((item) => (
@@ -182,6 +208,7 @@ const NewsSettings = () => {
                     <img src={item.image || '/images/news.jpg'} className="table-thumb" alt={item.title} />
                   </td>
                   <td>{item.title}</td>
+                  <td>{item.slug || '-'}</td>
                   <td>{toDateInput(item.date) || '-'}</td>
                   <td>
                     <button type="button" className="edit-btn" onClick={() => startEdit(item)}>Edit</button>

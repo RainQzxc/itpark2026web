@@ -1,7 +1,7 @@
 import express from "express";
-import multer from "multer";
 import cloudinary from "../config/cloudinary.js";
 import adminProtect from "../middleware/adminProtect.js";
+import upload from "../middleware/multerMemory.js";
 import {
   getAllNews,
   getSingleNews,
@@ -11,7 +11,6 @@ import {
 } from "../controllers/newsController.js";
 
 const router = express.Router();
-const upload = multer({ storage: multer.memoryStorage() });
 
 router.get("/", getAllNews);
 router.get("/:id", getSingleNews);

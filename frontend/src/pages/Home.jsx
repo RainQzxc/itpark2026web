@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE } from "../lib/api";
 
+const getNewsPath = (news) => `/news/${news.slug || news._id}`;
+const E_ZASAG_URL = "https://e-zasag.mn/";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -75,16 +77,12 @@ export default function Home() {
 
   const toDayMonth = (dateStr) => {
     const d = new Date(dateStr);
-    const day = d.getDate();
-    const month = d.toLocaleString("en-US", { month: "short" }).toUpperCase();
-    return `${day} ${month}`;
+    if (Number.isNaN(d.getTime())) return "";
+    return `${d.getMonth() + 1} сарын ${d.getDate()}`;
   };
 
-  const openNews = (id) => {
-    // чи NewsDetails route-оо /news/:id гэж хийвэл ингэнэ:
-    // navigate(`/news/${id}`);
-    // Одоогийнхоо хийсэн route-оос хамаараад өөрчилж болно.
-    navigate(`/news/${id}`);
+  const openNews = (item) => {
+    navigate(getNewsPath(item));
   };
 
   return (
@@ -231,6 +229,20 @@ export default function Home() {
         </div>
       </section>
 
+      <section id="e-zasag-banner" className="e-zasag-banner-section">
+        <div className="container">
+          <a
+            className="e-zasag-banner-link"
+            href={E_ZASAG_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="e-zasag.mn"
+          >
+            <img src="/images/e-zasag/banner.png" alt="e-zasag.mn" />
+          </a>
+        </div>
+      </section>
+
       {/* MARQUEE */}
       <section className="section-dark p-0" aria-label="section">
         <div className="bg-color text-light d-flex py-4 lh-1 rot-2">
@@ -262,10 +274,10 @@ export default function Home() {
               <div
                 key={n._id}
                 className="news-card"
-                onClick={() => openNews(n._id)}
+                onClick={() => openNews(n)}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && openNews(n._id)}
+                onKeyDown={(e) => e.key === "Enter" && openNews(n)}
               >
                 <img
                   src={n.image || "/images/news.jpg"}
@@ -280,6 +292,22 @@ export default function Home() {
                       {n.shortText.length > 100 ? "..." : ""}
                     </p>
                   ) : null}
+                  <button
+                    type="button"
+                    className="news-share-card-btn home-news-share-btn"
+                    aria-label="Share news"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const url = `${window.location.origin}${getNewsPath(n)}`;
+                      window.open(
+                        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+                        "_blank",
+                        "noopener,noreferrer"
+                      );
+                    }}
+                  >
+                    <i className="fa-solid fa-share-nodes"></i>
+                  </button>
                 </div>
               </div>
             ))}

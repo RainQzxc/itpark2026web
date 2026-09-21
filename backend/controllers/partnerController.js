@@ -1,5 +1,17 @@
 import Partner from "../models/Partner.js";
 import cloudinary from "../config/cloudinary.js";
+import { cleanNumber, cleanText, cleanUrl, pickFields } from "../utils/contentSecurity.js";
+
+const cleanPartnerPayload = (body = {}) => {
+  const picked = pickFields(body, ["title", "name", "image", "link", "order"]);
+  return {
+    title: cleanText(picked.title, 120),
+    name: cleanText(picked.name, 160),
+    image: cleanUrl(picked.image),
+    link: cleanUrl(picked.link, "#"),
+    order: cleanNumber(picked.order, 0),
+  };
+};
 
 /* GET ALL */
 export async function getPartners(req, res) {
@@ -9,13 +21,14 @@ export async function getPartners(req, res) {
 
 /* CREATE */
 export async function createPartner(req, res) {
-  const partner = await Partner.create(req.body);
+  const payload = cleanPartnerPayload(req.body);
+  const partner = await Partner.create(payload);
   res.json({ success: true, partner });
 }
 
 /* UPDATE */
 export async function updatePartner(req, res) {
-  await Partner.findByIdAndUpdate(req.params.id, req.body);
+  await Partner.findByIdAndUpdate(req.params.id, cleanPartnerPayload(req.body), { runValidators: true });
   res.json({ success: true });
 }
 

@@ -146,6 +146,21 @@
   padding: 12px;
 }
 
+.news-content-textarea {
+  min-height: 240px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  tab-size: 4;
+}
+
+.admin-field-hint {
+  margin: -4px 0 14px;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 #content-area input:focus {
   border-color: #3b82f6;
   background: #ffffff;

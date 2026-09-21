@@ -1,7 +1,7 @@
 import express from "express";
-import multer from "multer";
 import cloudinary from "../config/cloudinary.js";
 import adminProtect from "../middleware/adminProtect.js"; // Хамгаалагч нэмэв
+import upload from "../middleware/multerMemory.js";
 import {
   getTraining,
   addTraining,
@@ -11,7 +11,6 @@ import {
 } from "../controllers/trainingController.js";
 
 const router = express.Router();
-const upload = multer({ storage: multer.memoryStorage() });
 
 /* GET (Public) */
 router.get("/", getTraining);

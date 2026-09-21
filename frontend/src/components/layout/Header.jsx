@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const VIRTUAL_ZONE_URL = "https://e-business.mn/home";
+const E_ZASAG_URL = "https://e-zasag.mn/";
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -146,14 +147,19 @@ export default function Header() {
               </div>
             </li>
 
-            <li className="itp-nav-item">
-              <Link to="/rent">Түрээс</Link>
-            </li>
-
           </ul>
         </nav>
 
-        <div className="de-flex-col">
+        <div className="de-flex-col itp-header-actions">
+          <a
+            className="itp-ezasag-button"
+            href={E_ZASAG_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="e-zasag.mn"
+          >
+            <img src="/images/e-zasag/logo-dark.png" alt="e-zasag.mn" />
+          </a>
           <a
             className="btn-main mx-2 fx-slide btn-swap"
             href={VIRTUAL_ZONE_URL}
@@ -248,18 +254,26 @@ export default function Header() {
               </div>
             </div>
 
-            <Link className="mobile-menu-link" to="/rent" onClick={closeMobileMenu}>
-              Түрээс
-            </Link>
-            <a
-              className="mobile-menu-link"
-              href={VIRTUAL_ZONE_URL}
-              target="_blank"
-              rel="noreferrer"
-              onClick={closeMobileMenu}
-            >
-              ВИРТУАЛ БҮС
-            </a>
+            <div className="mobile-menu-actions">
+              <a
+                className="mobile-action-card mobile-action-ezasag"
+                href={E_ZASAG_URL}
+                target="_blank"
+                rel="noreferrer"
+                onClick={closeMobileMenu}
+              >
+                <img className="mobile-ezasag-logo" src="/images/e-zasag/logo-dark.png" alt="e-zasag.mn" />
+              </a>
+              <a
+                className="mobile-action-card mobile-action-virtual"
+                href={VIRTUAL_ZONE_URL}
+                target="_blank"
+                rel="noreferrer"
+                onClick={closeMobileMenu}
+              >
+                ВИРТУАЛ БҮС
+              </a>
+            </div>
           </div>
         </div>
       </div>

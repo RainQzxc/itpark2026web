@@ -1,5 +1,22 @@
 {
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "itpark.mn"
+        }
+      ],
+      "destination": "https://www.itpark.mn/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
+    {
+      "source": "/news/:slug",
+      "destination": "/api/news-meta?slug=:slug"
+    },
     {
       "source": "/(.*)",
       "destination": "/index.html"

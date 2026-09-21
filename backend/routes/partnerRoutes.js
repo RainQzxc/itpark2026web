@@ -1,6 +1,6 @@
 import express from "express";
-import multer from "multer";
 import adminProtect from "../middleware/adminProtect.js";
+import upload from "../middleware/multerMemory.js";
 import {
   getPartners,
   createPartner,
@@ -10,7 +10,6 @@ import {
 } from "../controllers/partnerController.js";
 
 const router = express.Router();
-const upload = multer({ storage: multer.memoryStorage() });
 
 /* PUBLIC */
 router.get("/", getPartners);
