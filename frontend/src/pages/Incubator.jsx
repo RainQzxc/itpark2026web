@@ -1,21 +1,31 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { API_BASE } from "../lib/api";
+
+const incubatorLogos = [
+  "224 E-Source Studio 1.png",
+  "ai rookies 1.png",
+  "artumm 1.png",
+  "binary systems 1.png",
+  "clear corp 1.png",
+  "enbotics 1.png",
+  "event 1.png",
+  "hackum, 1.png",
+  "honmono comics 1.png",
+  "lingors 1.png",
+  "mazaal ai 1.png",
+  "metacog 1.png",
+  "nova hex 1.png",
+  "onedayjob 1.png",
+  "uyach 1.png",
+  "virtual plus agency 1.png",
+].map((file) => ({
+  file,
+  name: file.replace(/,? 1\.png$/i, ""),
+}));
 
 export default function Incubator() {
   // ---------- STATS ----------
   const [stats, setStats] = useState(null);
-
-  // ---------- PARTNERS ----------
-  const [partners, setPartners] = useState([]);
-
-  const mainIncubator = useMemo(
-    () => partners.filter((p) => p?.title === "Үндсэн Инкубатор" && p?.image),
-    [partners]
-  );
-  const digitalIncubator = useMemo(
-    () => partners.filter((p) => p?.title === "Цахим Инкубатор" && p?.image),
-    [partners]
-  );
 
   // ---------- load stats ----------
   useEffect(() => {
@@ -28,23 +38,6 @@ export default function Incubator() {
         setStats(data || null);
       })
       .catch((e) => console.error("Stats load error:", e));
-
-    return () => {
-      alive = false;
-    };
-  }, []);
-
-  // ---------- load partners ----------
-  useEffect(() => {
-    let alive = true;
-
-    fetch(`${API_BASE}/api/partners`)
-      .then((r) => r.json())
-      .then((list) => {
-        if (!alive) return;
-        setPartners(Array.isArray(list) ? list : []);
-      })
-      .catch((e) => console.error("Partners load error:", e));
 
     return () => {
       alive = false;
@@ -84,47 +77,6 @@ export default function Incubator() {
         </span>
       </div>
 
-<section
-  id="section-hero"
-  className="section-dark no-top no-bottom text-light relative"
-  style={{ overflow: "hidden" }}
->
-  {/* Background video */}
-  <video
-    className="itp-hero-video"
-    autoPlay
-    loop
-    muted
-    playsInline
-    preload="auto"
-  >
-    <source src="/video/rend.mp4" type="video/mp4" />
-  </video>
-
-  <div className="itp-backdrop"></div>
-  <div className="sw-overlay op-8"></div>
-
-  <div className="abs abs-centered z-2 w-80">
-    <div className="container wow scaleIn" data-wow-duration="3s">
-      <div className="row">
-        <div className="col-lg-12 text-center">
-          <br />
-          <img src="/images/004.png" className="w-400px d-block mx-auto" alt="" />
-          <div className="spacer-single"></div>
-
-          <a className="btn-main mx-2 fx-slide" href="#" style={{ color: "#fff" }}>
-            <span>Инкубаторт бүртгүүлэх</span>
-          </a>
-
-          {/* зөвлөмж: SPA дээр Link ашигла */}
-          <a className="btn-main btn-line mx-2 fx-slide" href="/incubator">
-            <span>Инкубатор</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 
       {/* STATS */}
@@ -139,19 +91,19 @@ export default function Incubator() {
               <div className="stat-item">
                 <i className="fa-solid fa-building-circle-check"></i>
                 <Counter value={stats?.totalCompanies ?? 0} />
-                <p>Нийт компани</p>
+                <p  style={{ color: 'white' }}>Нийт компани</p>
               </div>
 
               <div className="stat-item">
                 <i className="fa-solid fa-users"></i>
                 <Counter value={stats?.totalJobs ?? 0} />
-                <p>Нийт ажлын байр</p>
+                <p style={{ color: 'white' }}>Нийт ажлын байр</p>
               </div>
 
               <div className="stat-item">
                 <i className="fa-solid fa-trophy"></i>
                 <Counter value={stats?.bestGraduates ?? 0} />
-                <p>Шилдэг төгсөгч</p>
+                <p  style={{ color: 'white' }}>Шилдэг төгсөгч</p>
               </div>
             </div>
 
@@ -164,20 +116,23 @@ export default function Incubator() {
             <div className="stats-column right">
               <div className="stat-item">
                 <i className="fa-solid fa-rocket"></i>
+                <span style={{ color: 'white' }}></span>
                 <Counter value={stats?.activeIncubator ?? 0} />
-                <p>Инкубаторт байрлаж буй</p>
+                <p  style={{ color: 'white' }}>Инкубаторт байрлаж буй</p>
               </div>
 
               <div className="stat-item">
                 <i className="fa-solid fa-user-group"></i>
-                <Counter value={stats?.currentJobs ?? 0} />
-                <p>Одоогийн ажлын байр</p>
+                <span style={{ color: 'white' }}>
+                  <Counter value={stats?.currentJobs ?? 0} />
+                </span>
+                <p  style={{ color: 'white' }}>Одоогийн ажлын байр</p>
               </div>
 
               <div className="stat-item">
                 <i className="fa-solid fa-face-smile"></i>
                 <Counter value={stats?.successfulGraduates ?? 0} />
-                <p>Амжилттай төгсөгч</p>
+                <p  style={{ color: 'white' }}>Амжилттай төгсөгч</p>
               </div>
             </div>
           </div>
@@ -257,33 +212,33 @@ export default function Incubator() {
         </div>
       </section>
 
-      {/* PARTNERS */}
-      <section id="partners-section" className="gradient-inherited">
-        <div className="container">
-          <div className="row g-4">
-            <div className="col-md-12 text-center">
-              <div className="partner-logos-wrapper">
-                <h2 className="section-title wow fadeInUp">Үндсэн Инкубатор</h2>
-                <div className="partner-logos" id="main-incubator">
-                  {mainIncubator.map((p) => (
-                    <a key={p._id || p.image} href={p.link || "#"} className="partner-card">
-                      <img src={p.image} className="partner-logo" alt={p.name || "partner"} />
-                    </a>
-                  ))}
-                </div>
-              </div>
+      {/* OUR INCUBATORS */}
+      <section id="partners-section" className="incubator-showcase">
+        <div className="container incubator-showcase-heading">
+          <span>IT Park ecosystem</span>
+          <h2>Бидний инкубаторууд</h2>
+        </div>
 
-              <div className="partner-logos-wrapper mt-5">
-                <h2 className="section-title wow fadeInUp">Цахим Инкубатор</h2>
-                <div className="partner-logos" id="digital-incubator">
-                  {digitalIncubator.map((p) => (
-                    <a key={p._id || p.image} href={p.link || "#"} className="partner-card">
-                      <img src={p.image} className="partner-logo" alt={p.name || "partner"} />
-                    </a>
-                  ))}
-                </div>
+        <div className="incubator-logo-marquee" aria-label="Бидний инкубатор компаниуд">
+          <div className="incubator-logo-track">
+            {[0, 1].map((copyIndex) => (
+              <div
+                className="incubator-logo-group"
+                aria-hidden={copyIndex === 1}
+                key={copyIndex}
+              >
+                {incubatorLogos.map((logo) => (
+                  <div className="incubator-logo-item" key={`${copyIndex}-${logo.file}`}>
+                    <img
+                      src={`/images/incubator/bidnii incubators/${logo.file}`}
+                      alt={copyIndex === 0 ? logo.name : ""}
+                      loading="eager"
+                      decoding="async"
+                    />
+                  </div>
+                ))}
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>

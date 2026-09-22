@@ -255,41 +255,4 @@ dropdownParents.forEach(item => {
     });
   }
 }); // ✅ нэг л DOMContentLoaded хаалт
-// FOLLOW SVG CURVE
-window.addEventListener("load", () => {
-    const path = document.getElementById("roadmap-path");
-    const items = document.querySelectorAll(".rm-item");
-
-    // Хэрвээ path байхгүй бол энэ animation-г алгасаад буцаана
-    if (!path) return;
-
-    const length = path.getTotalLength();
-
-    items.forEach(item => {
-        const pos = parseFloat(item.dataset.pos);  // percent position
-        const point = path.getPointAtLength((pos / 100) * length);
-
-        item.style.left = point.x + "px";
-        item.style.top = (point.y + 30) + "px";
-    });
-});
-
-const items = document.querySelectorAll(".rm-item");
-
-items.forEach(item => {
-    // Create info popup
-    const infoBox = document.createElement("div");
-    infoBox.classList.add("info-box");
-    infoBox.innerText = item.dataset.info;
-    item.appendChild(infoBox);
-
-    // Click event
-    item.addEventListener("click", () => {
-        // Close all others
-        items.forEach(i => i.classList.remove("active"));
-
-        // Open this one
-        item.classList.add("active");
-    });
-});
 

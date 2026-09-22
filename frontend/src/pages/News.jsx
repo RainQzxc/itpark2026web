@@ -40,7 +40,7 @@ export default function News() {
     return () => {
       alive = false;
     };
-  }, [API_BASE]);
+  }, []);
 
   const dayMonth = (dateStr) => {
     const d = new Date(dateStr);
@@ -52,8 +52,12 @@ export default function News() {
     <div id="wrapper">
       <div className="itp-overlay"></div>
 
-      <section>
+      <section className="news-index-section">
         <div className="container">
+          <div className="news-index-heading">
+            <span>IT Park</span>
+            <h1>Мэдээ мэдээлэл</h1>
+          </div>
           <div className="row g-4" id="news-container">
             {loading ? (
               <p style={{ color: "white" }}>⏳ Мэдээ ачаалж байна...</p>
@@ -66,66 +70,26 @@ export default function News() {
                 const { day, month } = dayMonth(post.date);
 
                 return (
-                  <div key={post._id} className="col-lg-4 col-md-6 mb-4">
-                    <div
-                      className="d-block hover relative rounded-20 overflow-hidden text-light"
+                  <div key={post._id} className="col-lg-4 col-md-6">
+                    <article
+                      className="news-card news-index-card"
                       onClick={() => navigate(getNewsPath(post))}
                       role="button"
                       tabIndex={0}
                       onKeyDown={(e) => e.key === "Enter" && navigate(getNewsPath(post))}
-                      style={{
-                        cursor: "pointer",
-                        background: "rgba(0,0,0,0.4)",
-                        borderRadius: 20,
-                      }}
                     >
-                      <div
-                        className="abs z-2 bg-color rounded-2 text-white p-3 pb-2 m-4 text-center fw-600"
-                        style={{ background: "#0E00A7", borderRadius: 12 }}
-                      >
-                        <h4 className="fs-36 mb-0 lh-1">{day}</h4>
-                        <span>{month}</span>
+                      <div className="news-card-media">
+                        <img
+                          src={post.image || "/images/news.jpg"}
+                          alt={post.title}
+                        />
                       </div>
-
-                      <img
-                        src={post.image || "/images/news.jpg"}
-                        className="w-100 hover-scale-1-1"
-                        style={{
-                          objectFit: "cover",
-                          height: 300,
-                          borderRadius: 20,
-                        }}
-                        alt={post.title}
-                      />
-
-                      <div
-                        className="absolute start-0 bottom-0 p-4 z-2"
-                        style={{
-                          background:
-                            "linear-gradient(to top,rgba(0,0,0,0.7),transparent)",
-                          borderRadius: 20,
-                        }}
-                      >
-                        <h4>{post.title}</h4>
+                      <div className="meta">
+                        <span className="date">{day} {month}</span>
+                        <h3>{post.title}</h3>
+                        <span className="news-card-link">Дэлгэрэнгүй <span aria-hidden="true">→</span></span>
                       </div>
-
-                      <button
-                        type="button"
-                        className="news-share-card-btn"
-                        aria-label="Share news"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          const url = `${window.location.origin}${getNewsPath(post)}`;
-                          window.open(
-                            `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-                            "_blank",
-                            "noopener,noreferrer"
-                          );
-                        }}
-                      >
-                        <i className="fa-solid fa-share-nodes"></i>
-                      </button>
-                    </div>
+                    </article>
                   </div>
                 );
               })

@@ -34,6 +34,7 @@ import TrainingDetails from "../pages/TrainingDetails";
 import Login from "../pages/Login";
 import RentPage from "../pages/RentPage";
 import NotFound from "../pages/NotFound";
+import About from "../pages/About";
 
 // --- Хамгаалагч бүрэлдэхүүн хэсэг ---
 const ProtectedRoute = ({ children }) => {
@@ -50,6 +51,7 @@ const ProtectedRoute = ({ children }) => {
 export const routes = [
   // PUBLIC ROUTES
   { path: "/", element: <Home /> },
+  { path: "/about", element: <About /> },
   { path: "/incubator", element: <Incubator /> },
   { path: "/digital-incubator", element: <DigitalIncubator /> },
   { path: "/staff", element: <Staff /> },
