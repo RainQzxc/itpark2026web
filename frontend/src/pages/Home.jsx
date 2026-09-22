@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { API_BASE } from "../lib/api";
 
 const getNewsPath = (news) => `/news/${news.slug || news._id}`;
 const E_ZASAG_URL = "https://e-zasag.mn/";
 
 export default function Home() {
-  const navigate = useNavigate();
   const [news, setNews] = useState([]);
+  const [openFaq, setOpenFaq] = useState(null);
 
   // 1) Template js-үүд route дээр дахин init болох боломж (quick re-init)
   useEffect(() => {
@@ -39,50 +39,12 @@ export default function Home() {
     return () => {
       alive = false;
     };
-  }, [API_BASE]);
-
-  // 3) YouTube autoplay intersection observer (хуучин inline script-ийн оронд)
-  useEffect(() => {
-    const iframe = document.getElementById("aboutVideo");
-    if (!iframe) return;
-
-    const id = iframe.dataset.embed || "1rRbHu96gbs";
-    const base = `https://www.youtube.com/embed/${id}?playsinline=1&rel=0&modestbranding=1`;
-    const play = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1`;
-
-    iframe.src = base;
-
-    let started = false;
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            if (!started) {
-              started = true;
-              iframe.src = play;
-            }
-          } else {
-            iframe.src = base;
-            started = false;
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    io.observe(iframe);
-    return () => io.disconnect();
   }, []);
 
   const toDayMonth = (dateStr) => {
     const d = new Date(dateStr);
     if (Number.isNaN(d.getTime())) return "";
     return `${d.getMonth() + 1} сарын ${d.getDate()}`;
-  };
-
-  const openNews = (item) => {
-    navigate(getNewsPath(item));
   };
 
   return (
@@ -97,9 +59,7 @@ export default function Home() {
       <div id="de-loader"></div>
 
       {/* overlay */}
-      <div className="itp-overlay"></div>
-
-  <section
+     <section
   id="section-hero"
   className="section-dark no-top no-bottom text-light relative"
   style={{ overflow: "hidden" }}
@@ -140,92 +100,73 @@ export default function Home() {
     </div>
   </div>
 </section>
-
-
       {/* ABOUT */}
-      <section id="section-about" className="bg-dark section-dark text-light">
+      <section
+        id="section-about"
+        className="itp-vision-section section-dark text-light"
+      >
         <div className="container">
-          <div className="row gx-5 align-items-center justify-content-between">
-            <div className="col-lg-6">
-              <div className="me-lg-5 pe-lg-5 py-2 my-">
-                <h2 className="wow fadeInUp" data-wow-delay=".4s">
-                  Алсын хараа, эрхэм зорилго, үнэт зүйлс, стратегийн чиглэл
-                </h2>
-                <p className="wow fadeInUp" data-wow-delay=".6s">
-                  Гарааны бизнес болон өндөр технологийг хөгжүүлэх,дамжуулах,
-                  чадварлаг хүний нөөцийг мэргэшүүлэх, салбарын эко системийг
-                  төгөлдөржүүлж олон улсад тэргүүлэгч цөм байгууллага болох.
-                </p>
-
-                <ul className="ul-check">
-                  <li className="wow fadeInUp" data-wow-delay=".8s">
-                    <strong style={{ color: "#09E69A" }}>Хамтын зүтгэл</strong>
-                    <br />
-                    Дэлхийд хүлээн зевшөөрөгдсөн технологийн цогцолбор байгууллага
-                    болох
-                  </li>
-                  <li className="wow fadeInUp" data-wow-delay=".9s">
-                    <strong style={{ color: "#09E69A" }}>Хариуцлага</strong>
-                    <br />
-                    Тогтвортой бодлого баримталж зорилгоо биелүүлэх
-                  </li>
-                  <li className="wow fadeInUp" data-wow-delay="1s">
-                    <strong style={{ color: "#09E69A" }}>
-                      Чадварлаг хүний нөөц
-                    </strong>
-                    <br />
-                    Олон улсын шаардлагад нийцсэн мэдлэг ур чадвар бүхий Монгол
-                    хунийг бэлтгэх
-                  </li>
-                  <li className="wow fadeInUp" data-wow-delay="1s">
-                    <strong style={{ color: "#09E69A" }}>
-                      Гарааны бизнесийн эко систем
-                    </strong>
-                    <br />
-                    Өрсөлдөх чадвар бүхий гарааны компаниудыг дэлхийн зах зээлд
-                    гаргах
-                  </li>
-                  <li className="wow fadeInUp" data-wow-delay="1s">
-                    <strong style={{ color: "#09E69A" }}>
-                      Инновацийн соёл
-                    </strong>
-                    <br />
-                    Технологийн дэвшлийг эдийн засгийн эргэлтэнд оруулах,
-                    нутагшуулах
-                  </li>
-                </ul>
-              </div>
+          <div className="itp-vision-intro">
+            <div>
+              <h6>Чиг баримжаа · Алсын хараа</h6>
+              <h2>
+                Алсын хараа, эрхэм зорилго, үнэт зүйлс, стратегийн чиглэл
+              </h2>
             </div>
-
-            <div className="col-lg-6">
-              <div className="about-media media-stack wow fadeInUp">
-                {/* YouTube video */}
-                <div className="yt-wrap">
-                  <iframe
-                    id="aboutVideo"
-                    data-embed="1rRbHu96gbs"
-                    src="https://www.youtube.com/embed/1rRbHu96gbs?rel=0&modestbranding=1&playsinline=1"
-                    title="YouTube video"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-
-                {/* Lottie */}
-                <div className="lottie-wrap wow scaleIn">
-                  <lottie-player
-                    src="/images/misc/tech-loading.json"
-                    background="transparent"
-                    speed="1"
-                    style={{ width: "100%", height: "260px" }}
-                    loop
-                    autoplay
-                  ></lottie-player>
-                </div>
-              </div>
-            </div>
+            <p>
+              Гарааны бизнес болон өндөр технологийг хөгжүүлэх, дамжуулах,
+              чадварлаг хүний нөөцийг мэргэшүүлэх, салбарын эко системийг
+              төгөлдөржүүлж олон улсад тэргүүлэгч цөм байгууллага болох.
+            </p>
           </div>
+
+          <ul className="itp-vision-values">
+            <li>
+              <strong>Хамтын зүтгэл</strong>
+              <span>Дэлхийд хүлээн зөвшөөрөгдсөн технологийн цогцолбор байгууллага болох</span>
+            </li>
+            <li>
+              <strong>Хариуцлага</strong>
+              <span>Тогтвортой бодлого баримталж зорилгоо биелүүлэх</span>
+            </li>
+            <li>
+              <strong>Чадварлаг хүний нөөц</strong>
+              <span>Олон улсын шаардлагад нийцсэн мэдлэг, ур чадвар бүхий Монгол хүнийг бэлтгэх</span>
+            </li>
+            <li>
+              <strong>Гарааны бизнесийн эко систем</strong>
+              <span>Өрсөлдөх чадвар бүхий гарааны компаниудыг дэлхийн зах зээлд гаргах</span>
+            </li>
+            <li>
+              <strong>Инновацийн соёл</strong>
+              <span>Технологийн дэвшлийг эдийн засгийн эргэлтэд оруулах, нутагшуулах</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="itp-vision-film text-light" aria-label="IT Park танилцуулга видео">
+        <div className="itp-vision-film-media" aria-hidden="true">
+          <iframe
+            src="https://www.youtube.com/embed/1rRbHu96gbs?autoplay=1&mute=1&controls=0&loop=1&playlist=1rRbHu96gbs&playsinline=1&rel=0&modestbranding=1&disablekb=1&fs=0&iv_load_policy=3"
+            title=""
+            tabIndex="-1"
+            frameBorder="0"
+            allow="autoplay; encrypted-media"
+          ></iframe>
+        </div>
+        <div className="itp-vision-film-shade"></div>
+        <div className="container itp-vision-film-content">
+          <span className="itp-vision-film-eyebrow">IT Park Mongolia</span>
+          <h2>Инновацийн экосистемийг хамтдаа бүтээнэ</h2>
+          <a
+            className="itp-vision-film-link"
+            href="https://www.youtube.com/watch?v=1rRbHu96gbs"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Бүтэн видеог үзэх <span aria-hidden="true">↗</span>
+          </a>
         </div>
       </section>
 
@@ -271,45 +212,23 @@ export default function Home() {
           {/* хуучин "dynamic-news-slider" */}
           <div className="news-slider" id="dynamic-news-slider">
             {news.map((n) => (
-              <div
-                key={n._id}
-                className="news-card"
-                onClick={() => openNews(n)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && openNews(n)}
-              >
-                <img
-                  src={n.image || "/images/news.jpg"}
-                  alt={n.title}
-                />
+              <article key={n._id} className="news-card">
+                <Link className="news-card-media" to={getNewsPath(n)}>
+                  <img src={n.image || "/images/news.jpg"} alt={n.title} />
+                </Link>
                 <div className="meta">
                   <span className="date">{toDayMonth(n.date)}</span>
-                  <h4>{n.title}</h4>
+                  <h3><Link to={getNewsPath(n)}>{n.title}</Link></h3>
                   {n.shortText ? (
                     <p className="excerpt">
-                      {n.shortText.substring(0, 100)}
-                      {n.shortText.length > 100 ? "..." : ""}
+                      {n.shortText.substring(0, 110)}{n.shortText.length > 110 ? "…" : ""}
                     </p>
                   ) : null}
-                  <button
-                    type="button"
-                    className="news-share-card-btn home-news-share-btn"
-                    aria-label="Share news"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      const url = `${window.location.origin}${getNewsPath(n)}`;
-                      window.open(
-                        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-                        "_blank",
-                        "noopener,noreferrer"
-                      );
-                    }}
-                  >
-                    <i className="fa-solid fa-share-nodes"></i>
-                  </button>
+                  <Link className="news-card-link" to={getNewsPath(n)}>
+                    Дэлгэрэнгүй <span aria-hidden="true">→</span>
+                  </Link>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
 
@@ -494,37 +413,37 @@ export default function Home() {
             </div>
 
             <div className="col-lg-7">
-              <div className="accordion s2 wow fadeInUp">
-                <div className="accordion-section">
-                  <div className="accordion-section-title" data-tab="#accordion-a1">
-                    Топсит гэж юу вэ?
-                  </div>
-                  <div className="accordion-section-content" id="accordion-a1">
-                    Мэдээлэл харилцаа холбооны салбарын инженер, техникийн ажилтан,
-                    програм хангамж хөгжүүлэгчдэд болон их дээд сургуулийн оюутан
-                    суралцагчдын практик ур чадварыг тодорхойлох — Мэдээллийн
-                    технологийн салбарын болон боловсролын системийн хөгжлийн
-                    түвшинг нэмэгдүүлэх.
-                  </div>
-
-                  <div className="accordion-section-title" data-tab="#accordion-a3">
-                    ICDL-ийн шалгалтын тухай
-                  </div>
-                  <div className="accordion-section-content" id="accordion-a3">
-                    "Олон улсын компьютерийн хэрэглээний гэрчилгээ" (ICDL) шалгалт нь
-                    олон улсын стандартын шалгуурт тулгуурлан хэрэглэгчдийн компьютерийн
-                    хэрэглээний ур чадвар, мэдлэг, практикийг үнэлдэг шалгалт юм.
-                  </div>
-
-                  <div className="accordion-section-title" data-tab="#accordion-a4">
-                    МТ-ийн сургалтууд
-                  </div>
-                  <div className="accordion-section-content" id="accordion-a4">
-                    Мобайл апп хөгжүүлэлт, iOS, Android, Oracle, PHP & MySQL, Java,
-                    Cpanel, Firewall, Сүлжээ, Active Directory, VMware, Мэдээллийн аюулгүй байдал,
-                    Компьютерийн хэрэглээ, МТИШ-ын бэлтгэх сургалт гэх мэт.
-                  </div>
-                </div>
+              <div className="itp-faq-list">
+                {[
+                  {
+                    question: "Топсит гэж юу вэ?",
+                    answer: "Мэдээлэл, харилцаа холбооны салбарын инженер, техникийн ажилтан, програм хангамж хөгжүүлэгч болон оюутнуудын практик ур чадварыг тодорхойлох шалгалт юм.",
+                  },
+                  {
+                    question: "ICDL-ийн шалгалтын тухай",
+                    answer: "Олон улсын компьютерийн хэрэглээний гэрчилгээний шалгалт нь хэрэглэгчдийн мэдлэг, практик ур чадварыг олон улсын стандартаар үнэлдэг.",
+                  },
+                  {
+                    question: "МТ-ийн сургалтууд",
+                    answer: "Мобайл хөгжүүлэлт, iOS, Android, Oracle, PHP & MySQL, Java, сүлжээ, VMware, мэдээллийн аюулгүй байдал болон МТИШ-ын бэлтгэл сургалтууд явагддаг.",
+                  },
+                ].map((item, index) => {
+                  const isOpen = openFaq === index;
+                  return (
+                    <div className={`itp-faq-item ${isOpen ? "is-open" : ""}`} key={item.question}>
+                      <button
+                        type="button"
+                        className="itp-faq-question"
+                        aria-expanded={isOpen}
+                        onClick={() => setOpenFaq(isOpen ? null : index)}
+                      >
+                        <span>{item.question}</span>
+                        <span className="itp-faq-icon" aria-hidden="true">{isOpen ? "−" : "+"}</span>
+                      </button>
+                      {isOpen && <div className="itp-faq-answer">{item.answer}</div>}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

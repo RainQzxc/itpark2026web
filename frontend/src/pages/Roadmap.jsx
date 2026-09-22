@@ -1,175 +1,276 @@
-import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-
-const DATA = [
-  { year: 1972, value: 35, info: "Шинжлэх ухаан, техникийн мэдээллийн төв" },
-  { year: 1997, value: 40, info: "Шинжлэх ухаан, техникийн мэдээллийн төв” корпораци" },
-  { year: 2002, value: 34, info: "Мэдээллийн технологийн үндэсний парк" },
-  { year: 2003, value: 25, info: "АНХНЫ ИНКУБАТОР" },
-  { year: 2006, value: 35, info: "МЭДЭЭЛЛИЙН ТЕХНОЛОГИЙН ИНЖЕНЕРИЙН ШАЛГАЛТ" },
-  { year: 2013, value: 52, info: "COWORKING SPACE" },
-  { year: 2014, value: 62, info: "СИЛИКОН ХАУС ТӨСӨЛ, ICDL ШАЛГАЛТ" },
-  { year: 2021, value: 78, info: "“ЭНТРЕПРЕНЁР” ХӨТӨЛБӨР, IDEA HUB, АХИСАН ТҮВШНИЙ ИНКУБАТОР" },
-  { year: 2025, value: 95, info: "Virtual Zone, “ӨРГӨӨ 2” ГАРАВ, Techweek" },
+const eras = [
+  {
+    period: "1972–1997",
+    year: "1972",
+    title: "Шинжлэх ухаан, техникийн мэдээллийн төв",
+    summary:
+      "Монгол Улсад шинжлэх ухаан, техник, технологийн мэдээллийн нэгдсэн тогтолцоог бүрдүүлэх байгууллагын суурь тавигдав.",
+    paragraphs: [
+      "1971 оны 11 дүгээр сарын 2-нд ЭЗХТЗ-ийн гишүүн орнуудын экспертүүд Монгол Улсад Шинжлэх ухаан, техникийн мэдээллийн төв байгуулах шийдвэр гаргажээ. 1972 оны 4 дүгээр сарын 2-нд ЗХУ, БНАГУ, БНСЧСУ болон Монгол Улсын төлөөлөгчид бүтээн байгуулалтыг эхлүүлэх эцсийн тохиролцоонд хүрсэн байна.",
+      "ЗХУ барилгын ажлыг хариуцаж, БНАГУ болон БНСЧСУ тоног төхөөрөмж нийлүүлэхээр болжээ. Үүнээс өмнө Монгол Улсын Засгийн газрын 211 дүгээр тогтоолоор Шинжлэх ухаан, техникийн улсын хорооны харьяанд төвийг байгуулсан нь өнөөгийн Мэдээллийн технологийн үндэсний паркийн үндэс суурь болсон юм.",
+      "Тус төв улсын хэмжээнд мэдээллийн нэгдсэн тогтолцоо бүрдүүлэх, хэрэглэгчдийг шуурхай мэдээллээр хангах, мэргэшсэн боловсон хүчин бэлтгэхийн зэрэгцээ суурь судалгаа, арга зүй, технологийн баримт бичиг боловсруулах чиглэлээр ажиллаж байв.",
+    ],
+  },
+  {
+    period: "1997–2002",
+    year: "1997",
+    title: "Шинжлэх ухаан, техникийн мэдээллийн төв корпорац",
+    summary:
+      "Байгууллага судалгаа, мэдээллийн үйлчилгээ, технологи дамжуулалтыг зах зээлийн шинэ орчинд хөгжүүлэх дараагийн шатандаа орлоо.",
+    paragraphs: [
+      "Монгол Улсын Засгийн газрын 1997 оны 1 дүгээр сарын 22-ны өдрийн 31 дүгээр тогтоолоор төвийг корпорац болгон өөрчлөн зохион байгуулжээ. Энэ нь шинжлэх ухаан, технологийн бодлогын хэрэгжилтийг эрчимжүүлж, үйл ажиллагааны үр нөлөөг нэмэгдүүлэх зорилготой байв.",
+      "1998 оны 6 дугаар сарын 15-наас мөрдөгдөж эхэлсэн Шинжлэх ухаан, технологийн тухай хуулийн дагуу эрдэм шинжилгээний байгууллагын статустай болсон. Засгийн газрын 1998 оны 165 дугаар тогтоолоор баталсан үлгэрчилсэн дүрмийн хүрээнд корпорац нэрээр үйл ажиллагаагаа үргэлжлүүлсэн байна.",
+    ],
+    bullets: [
+      "Мэдээллийн технологийн хөгжлийн хэтийн чиг хандлагыг судлах",
+      "Боловсрол, шинжлэх ухаан, технологийн мэдээллийн нэгдсэн сүлжээ байгуулах",
+      "Хэрэглэгчдэд мэдээллээр үйлчлэх",
+      "Технологи дамжуулах үйл ажиллагааг зуучлах",
+    ],
+  },
+  {
+    period: "2002–өнөөдөр",
+    year: "2002",
+    title: "Мэдээллийн технологийн үндэсний парк",
+    summary:
+      "Мэдээллийн технологийн үйлдвэрлэл, гарааны бизнес, хүний нөөцийг нэг экосистемд холбох үндэсний байгууллага шинэ бүтэц, чиг үүргээр ажиллаж эхлэв.",
+    paragraphs: [
+      "Монгол Улсын Засгийн газрын 2002 оны 5 дугаар сарын 29-ний өдрийн 107 дугаар тогтоолоор Мэдээллийн технологийн үндэсний парк байгуулах шийдвэр гарч, 2002 оны 8 дугаар сарын 6-нд албан ёсоор үйл ажиллагаагаа эхлүүлжээ.",
+      "Шинжлэх ухаан, техникийн мэдээллийн төв корпорацын барилга байгууламж, тоног төхөөрөмж, эд хөрөнгө, ажилтнуудын хөдөлмөрийн гэрээ болон ахмад ажилтнуудын холбогдох баримтыг шилжүүлэн авснаар байгууллагын үйл ажиллагаа шинэ бүтэц, шинэ чиг үүргээр үргэлжилсэн байна.",
+    ],
+    bullets: [
+      "Монгол Улсад мэдээллийн технологийг хөгжүүлэхэд дэмжлэг үзүүлэх",
+      "Шинэ санаа бүхий венчер бизнесийг өндөр үр ашигтай бизнес болгох инкубатор ажиллуулах",
+      "Шинжлэх ухаан, технологийн мэдээллийн сан байгуулж үйлчилгээ үзүүлэх",
+    ],
+  },
 ];
 
-const W = 1000;
-const H = 420;
-const PAD_X = 80;
-const PAD_Y = 70;
+const developmentMilestones = [
+  {
+    year: "2003",
+    title: "Шинэ бүтэц ба анхны инкубатор",
+    text: "Удирдах зөвлөлийн 10 дугаар сарын 28-ны хурлаар байгууллагыг гурван газар, хэлтэс болон 54 ажилтантайгаар шинэчлэн зохион байгуулав. Мөн 9 дүгээр сард мэдээллийн технологийн инкубатор анхны 11 компаниа сонгон, бойжуулах хөтөлбөрөө эхлүүлжээ.",
+  },
+  {
+    year: "2005",
+    title: "Үйл ажиллагааны өргөжилт",
+    text: "Мэдээллийн технологийн бизнесийг дэмжих газрын бүрэлдэхүүнд Инкубаторын болон Судалгаа хөгжлийн алба шинээр байгуулагдав.",
+  },
+  {
+    year: "2006",
+    title: "Гадаад аутсорсинг",
+    text: "Мэдээлэл, харилцаа холбоо, технологийн газраас гадаад аутсорсингийг хөгжүүлэх шийдвэр гаргаж, инкубаторын үйл ажиллагааг энэ чиглэлд төвлөрүүлэх үүрэг МТҮП-д оногдов.",
+  },
+  {
+    year: "2007",
+    title: "Сургалт ба Цахим Монгол",
+    text: "“Цахим Монгол” хөтөлбөрийн төсөл, ажлуудад оролцохын зэрэгцээ мэдээллийн технологийн мэргэжилтнүүдийн сургалт, сургалтын орчныг сайжруулах чиглэлээр ажиллав.",
+  },
+  {
+    year: "2010",
+    title: "Хотын технологийн түшиц газар",
+    text: "Хойд жигүүрийн корпусыг түрээслүүлэх гурван талт гэрээгээр “Өргөө 2” кинотеатр ажиллаж эхлэв. Энэ хугацаанд парк нь компаниуд, хурал уулзалт, семинар төвлөрсөн “Ай Ти Парк” нэртэй салбарын гол түшиц газар болжээ.",
+  },
+];
 
-const Roadmap = () => {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+const legalFunctions = [
+  "Дэвшилтэт технологи, экспортын чиг баримжаатай үндэсний үйлдвэрлэлийг хөгжүүлэх судалгаа, хэрэгцээ шаардлага, техник эдийн засгийн үндэслэл боловсруулах",
+  "Мэдээллийн технологийн бүтээгдэхүүн, үйлчилгээг зах зээлд нэвтрүүлэхэд мэргэжлийн болон арга зүйн дэмжлэг үзүүлж, гарааны бизнесүүдийг уялдуулах",
+  "Тэмцээн, уралдаан, хүний нөөцийн хөтөлбөрийг дотоод, гадаадын их сургууль, эрдэм шинжилгээний байгууллага, аж ахуйн нэгжтэй хамтран хэрэгжүүлэх",
+  "Бүтээгдэхүүн, үйлчилгээ хөгжүүлэх хөрөнгө оруулалтыг биет болон биет бус хэлбэрээр татан төвлөрүүлэх",
+  "Үндэсний бүтээгдэхүүн, үйлчилгээг олон улсын зах зээлд сурталчилж, гадаад аутсорсингийн үйлчилгээг дэмжих",
+  "Мэдээллийн технологийн бүтээгдэхүүн, үйлчилгээ худалдан авах нэг цонхны бүртгэлийн системийг хариуцах",
+  "Инкубатор болон хамтын оффис ажиллуулж, инкубаторт элсэгчдэд тавигдах шаардлагыг тодорхойлох",
+  "Виртуал бүсийн Зөвлөлийн ажлын албаны чиг үүргийг хэрэгжүүлэх",
+  "Виртуал бүсэд хуулийн этгээдийг бүртгэх болон хуульд заасан үндэслэлээр бүртгэлээс хасах",
+  "Виртуал бүсэд бүртгэлтэй хуулийн этгээдийн зах зээлийн үнэлгээг мэргэжлийн байгууллагатай хамтран гүйцэтгэх",
+  "Мэдээллийн технологийн бүтээгдэхүүн, үйлчилгээний ангилал, зориулалт, зохиогчийн эрх болон холбогдох мэдээллийн сан бүрдүүлэх",
+];
 
-  const points = useMemo(() => {
-    return DATA.map((d, i) => ({
-      x: PAD_X + (i * (W - PAD_X * 2)) / (DATA.length - 1),
-      y: H - (PAD_Y + (d.value * (H - PAD_Y * 2)) / 100),
-      ...d,
-    }));
-  }, []);
+const impactAreas = [
+  {
+    value: "400+",
+    label: "гарааны болон технологийн компани",
+    title: "Бизнесийн инкубаторын тогтолцоо",
+    text: "2003 оноос хойш технологид суурилсан компаниудыг бойжуулж, салбарын манлайлагч, инженер, мэргэжилтнүүдийг төлөвшүүлэхэд хувь нэмрээ оруулсаар байна.",
+  },
+  {
+    value: "4,825",
+    label: "сертификатын шалгалтад хамрагдсан иргэн",
+    title: "Хүний нөөцийн хөгжил",
+    text: "Олон улсын стандарт, шаардлагад нийцсэн сургалт, сертификатын шалгалтыг тогтмол зохион байгуулж, 3,968 иргэнийг дотоод, гадаадын сургалт, хөтөлбөрөөр чадавхжуулжээ.",
+  },
+  {
+    value: "30+",
+    label: "гадаад түнш байгууллага",
+    title: "Олон улсын хамтын ажиллагаа",
+    text: "Дотоодын компаниудын олон улсын зах зээлд гарах боломжийг нэмэгдүүлж, дэлхийн туршлага, шинэ технологи, инновацын шийдлийг нэвтрүүлэх төсөл, хөтөлбөрүүдийг хэрэгжүүлж байна.",
+  },
+  {
+    value: "ICT",
+    label: "Expo · TechWeek · Forum",
+    title: "Төр, хувийн хэвшлийг холбох гүүр",
+    text: "Салбарын томоохон арга хэмжээнүүдээр төрийн бодлого, хувийн хэвшлийн санаачилга, эрдэм шинжилгээ, инновацын үйл ажиллагааг уялдуулах нээлттэй талбарыг бүрдүүлжээ.",
+  },
+];
 
-  const pathD = useMemo(() => {
-    return points.reduce((acc, p, i, arr) => {
-      if (i === 0) return `M ${p.x},${p.y}`;
-      const prev = arr[i - 1];
-      const cx = (prev.x + p.x) / 2;
-      return `${acc} C ${cx},${prev.y} ${cx},${p.y} ${p.x},${p.y}`;
-    }, '');
-  }, [points]);
-
+export default function Roadmap() {
   return (
-    <div className="relative w-full bg-[#03065d] py-24 md:py-32 overflow-hidden">
-      <section id="roadmap" className="itp-roadmap-section overflow-visible">
-      <div className="max-w-[1240px] mx-auto px-4 md:px-8 relative">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-16 md:mb-20 text-center tracking-tight">
-          Байгууллагын түүхэн замнал
-        </h2>
-
-        <div className="relative min-h-[420px] md:min-h-[480px]">
-          <svg
-            viewBox={`0 0 ${W} ${H}`}
-            className="w-full h-auto overflow-visible pointer-events-none"
-            preserveAspectRatio="xMidYMid meet"
-          >
-            <defs>
-              <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#818cf8" />
-                <stop offset="50%" stopColor="#f472b6" />
-                <stop offset="100%" stopColor="#3b82f6" />
-              </linearGradient>
-              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="4.5" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-
-            {/* Light vertical grid lines */}
-            {points.map((p, i) => (
-              <line
-                key={`grid-${i}`}
-                x1={p.x}
-                y1={PAD_Y - 10}
-                x2={p.x}
-                y2={H - PAD_Y + 10}
-                stroke="rgba(255,255,255,0.08)"
-                strokeDasharray="5 7"
-              />
-            ))}
-
-            {/* Main animated path */}
-            <motion.path
-              d={pathD}
-              fill="none"
-              stroke="url(#lineGradient)"
-              strokeWidth="7"
-              strokeLinecap="round"
-              filter="url(#glow)"
-              initial={{ pathLength: 0, opacity: 0.4 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 2.2, ease: 'easeOut' }}
-            />
-
-            {/* Points + interaction */}
-            {points.map((p, i) => (
-              <g
-                key={i}
-                className="pointer-events-auto"
-                onMouseEnter={() => setHoveredIndex(i)}
-                onMouseLeave={() => setHoveredIndex(null)}
-                onFocus={() => setHoveredIndex(i)}
-                onBlur={() => setHoveredIndex(null)}
-                tabIndex={0}
-                role="button"
-                aria-label={`${p.year} он - ${p.info}`}
-              >
-                {/* Larger invisible hit area */}
-                <circle cx={p.x} cy={p.y} r={28} fill="transparent" />
-
-                <motion.circle
-                  cx={p.x}
-                  cy={p.y}
-                  r={hoveredIndex === i ? 12 : 8}
-                  fill={hoveredIndex === i ? '#ffffff' : '#ec4899'}
-                  stroke="#ffffff"
-                  strokeWidth={hoveredIndex === i ? 4 : 3}
-                  filter={hoveredIndex === i ? 'url(#glow)' : undefined}
-                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                />
-
-                <text
-                  x={p.x}
-                  y={H - 12}
-                  textAnchor="middle"
-                  fill={hoveredIndex === i ? '#ffffff' : 'rgba(255,255,255,0.65)'}
-                  fontSize="18"
-                  fontWeight="700"
-                  className="transition-all duration-200"
-                >
-                  {p.year}
-                </text>
-              </g>
-            ))}
-          </svg>
-
-          {/* Popup tooltip */}
-          <AnimatePresence>
-            {hoveredIndex !== null && (
-              <motion.div
-                key={hoveredIndex}
-                initial={{ opacity: 0, scale: 0.85, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.85, y: 20 }}
-                transition={{ duration: 0.25 }}
-                className="absolute z-50 pointer-events-none"
-                style={{
-                  left: `${Math.max(18, Math.min(82, (points[hoveredIndex].x / W) * 100))}%`,
-                  top: `${Math.max(0, (points[hoveredIndex].y / H) * 100 - 18)}%`,
-                  transform: 'translate(-50%, -100%)',
-                }}
-              >
-                <div className="bg-white/98 backdrop-blur-sm px-6 py-5 rounded-2xl shadow-2xl border-l-8 border-pink-500 min-w-[280px] max-w-[340px] text-slate-900">
-                  <div className="text-pink-600 font-black text-3xl mb-2 tracking-tight">
-                    {points[hoveredIndex].year}
-                  </div>
-                  <div className="text-base font-medium leading-relaxed">
-                    {points[hoveredIndex].info}
-                  </div>
-                </div>
-
-                {/* Arrow using pseudo element */}
-                <div className="absolute bottom-[-10px] left-1/2 -translate-x-1/2 w-5 h-5 bg-white rotate-45 shadow-xl border-b border-r border-slate-200/80" />
-              </motion.div>
-            )}
-          </AnimatePresence>
+    <div id="wrapper" className="roadmap-page">
+      <section className="roadmap-hero text-light">
+        <div className="container roadmap-hero-inner">
+          <span className="roadmap-eyebrow">1972 — 2027</span>
+          <h1>Мэдээллийн технологийн үндэсний паркийн түүхэн замнал</h1>
+          <p>
+            Шинжлэх ухаан, техникийн мэдээллийн төвөөс үндэсний технологийн
+            үйлдвэрлэл, гарааны бизнес, инновацын экосистемийг дэмжих институт
+            хүртэлх хөгжлийн түүх.
+          </p>
+          <a className="roadmap-scroll-link" href="#history">
+            Түүхэн үеүүдийг үзэх <span aria-hidden="true">↓</span>
+          </a>
         </div>
-      </div>
+      </section>
+
+      <section id="history" className="roadmap-history text-light">
+        <div className="container">
+          <div className="roadmap-section-heading">
+            <span>Байгууллагын хөгжил</span>
+            <h2>Гурван үеийн залгамж холбоо</h2>
+          </div>
+
+          <div className="roadmap-era-list">
+            {eras.map((era, index) => (
+              <article className="roadmap-era" key={era.period}>
+                <div className="roadmap-era-marker" aria-hidden="true">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                </div>
+                <div className="roadmap-era-date">
+                  <span>{era.period}</span>
+                  <strong>{era.year}</strong>
+                </div>
+                <div className="roadmap-era-content">
+                  <h3>{era.title}</h3>
+                  <p className="roadmap-era-summary">{era.summary}</p>
+                  <div className="roadmap-era-prose">
+                    {era.paragraphs.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                  {era.bullets && (
+                    <ul className="roadmap-era-points">
+                      {era.bullets.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="roadmap-development text-light">
+        <div className="container">
+          <div className="roadmap-section-heading roadmap-section-heading-split">
+            <span>2003 — 2010</span>
+            <h2>Үндэсний технологийн экосистем бүрэлдсэн нь</h2>
+            <p>
+              Экспортод чиглэсэн программ хангамжийн үйлдвэрлэл, инкубатор,
+              судалгаа хөгжүүлэлт, сургалт болон аутсорсингийн шинэ тогтолцоо
+              үе шаттайгаар бүрэлдэв.
+            </p>
+          </div>
+
+          <ol className="roadmap-milestones">
+            {developmentMilestones.map((item) => (
+              <li key={item.year}>
+                <time>{item.year}</time>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="roadmap-law text-light">
+        <div className="container">
+          <div className="roadmap-law-intro">
+            <div>
+              <span className="roadmap-eyebrow">2024</span>
+              <h2>Эрх зүйн шинэ үе</h2>
+            </div>
+            <div>
+              <p>
+                Монгол Улсын Их Хурал 2024 оны 6 дугаар сарын 5-нд анх удаа
+                “Мэдээллийн технологийн үйлдвэрлэлийг дэмжих тухай” хуулийг
+                баталснаар МТҮП-ийн эрх зүйн үндэс, чиг үүрэг хуульчлагдав.
+              </p>
+              <p>
+                Ингэснээр технологийн үйлдвэрлэл, гарааны бизнес, инновац,
+                үндэсний бүтээгдэхүүн үйлчилгээг олон улсын зах зээлд гаргах
+                төрийн бодлогыг хэрэгжүүлэх институтийн эрх зүйн орчин бүрдсэн юм.
+              </p>
+            </div>
+          </div>
+
+          <ol className="roadmap-law-grid">
+            {legalFunctions.map((item, index) => (
+              <li key={item}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <p>{item}</p>
+              </li>
+            ))}
+          </ol>
+
+          <p className="roadmap-law-note">
+            Хуулийн хүрээнд “Мэдээллийн технологийн үйлдвэрлэлийг дэмжих
+            виртуал бүс” байгуулагдаж, МТҮП нь инновац, гарааны бизнес,
+            технологийн компаниудыг бодлогоор дэмжих хэрэгжүүлэгч байгууллагаар
+            ажиллаж байна.
+          </p>
+        </div>
+      </section>
+
+      <section className="roadmap-impact text-light">
+        <div className="container">
+          <div className="roadmap-section-heading">
+            <span>Үр нөлөө</span>
+            <h2>Экосистемд үлдээсэн бодит мөр</h2>
+          </div>
+
+          <div className="roadmap-impact-grid">
+            {impactAreas.map((item) => (
+              <article key={item.title}>
+                <div className="roadmap-impact-value">{item.value}</div>
+                <span>{item.label}</span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="roadmap-future text-light">
+        <div className="container roadmap-future-inner">
+          <span className="roadmap-eyebrow">Дараагийн бүлэг</span>
+          <div className="roadmap-future-year">2027</div>
+          <h2>25 жил · 55 жилийн түүх</h2>
+          <p>
+            2027 онд Мэдээллийн технологийн үндэсний парк нэрээр үйл ажиллагаа
+            явуулж эхэлсний 25 жил, энэхүү цогцолборт үйл ажиллагаа эхэлсний 55
+            жилийн ой тохионо. Энэ бол өнгөрснөө дүгнэхээс гадна инновац,
+            дижитал шилжилт, технологийн үйлдвэрлэлийн дараагийн зорилго,
+            алсын харааг тодорхойлох шинэ эхлэл юм.
+          </p>
+        </div>
       </section>
     </div>
   );
-};
-
-export default Roadmap;
+}

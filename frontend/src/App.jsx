@@ -3,6 +3,8 @@ import { useEffect, useMemo } from "react";
 import { routes } from "./lib/routes";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
+import SectionSubnav from "./components/layout/SectionSubnav";
+import GlobalParticleBackground from "./components/layout/GlobalParticleBackground";
 
 export default function App() {
   const location = useLocation();
@@ -31,8 +33,11 @@ export default function App() {
 
   return (
     <div className={isAuthOrAdmin ? "app-shell app-shell-auth" : "app-shell"}>
+      {!isAuthOrAdmin && <GlobalParticleBackground />}
       {/* Login болон Admin биш үед л Header харагдана */}
       {!isAuthOrAdmin && <Header />}
+
+      {!isAuthOrAdmin && <SectionSubnav />}
 
       <main className="app-main">
         {routeElements}
