@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="mn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1726d8">
+  <meta name="description" content="Мэдээлэл, технологийн үндэсний паркийн танилцуулга, дүрэм журам, тайлан төлөвлөгөө болон бусад мэдээлэл.">
+  <title>Мэдээллийн техноллогийн үндэсний парк-т</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231726d8'/%3E%3Cpath d='M17 18h8v28h-8zm11 0h19v8H28zm0 11h15v7H28zm0 10h19v7H28z' fill='white'/%3E%3Ccircle cx='21' cy='13' r='4' fill='%23ff3b3b'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --blue: #1726d8;
+      --blue-strong: #0d18ad;
+      --blue-soft: #eef2ff;
+      --ink: #14162f;
+      --muted: #62657a;
+      --line: #e5e7f2;
+      --surface: #ffffff;
+      --page: #f6f7fc;
+      --danger: #ff3b3b;
+      --shadow: 0 18px 50px rgba(21, 30, 118, .12);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+    .shell { min-height: 100vh; min-height: 100dvh; }
+    .page { width: min(100%, 1180px); margin: 0 auto; padding: 0 18px 42px; }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 76px;
+      padding: 12px 0;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      color: var(--blue);
+      text-decoration: none;
+    }
+    .brand img { display: block; width: 132px; height: auto; }
+    .lang { color: var(--muted); font-size: .82rem; font-weight: 800; letter-spacing: .08em; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 34px 24px 30px;
+      border-radius: 30px;
+      color: white;
+      background:
+        linear-gradient(105deg, rgba(5, 12, 93, .96) 0%, rgba(13, 24, 173, .88) 48%, rgba(13, 24, 173, .45) 100%),
+        url('assets/itpark-building.jpeg') center 46% / cover no-repeat;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+    }
+    .hero::before { width: 260px; height: 260px; right: -142px; top: -132px; }
+    .hero::after { width: 170px; height: 170px; right: -82px; bottom: -108px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 14px;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity: .82;
+    }
+    .eyebrow::before { content: ""; width: 24px; height: 2px; background: #ff5a5a; }
+    h1 {
+      max-width: 780px;
+      margin: 0;
+      font-size: clamp(2rem, 8vw, 4.9rem);
+      line-height: .98;
+      letter-spacing: -.055em;
+    }
+    .intro {
+      max-width: 820px;
+      margin: 24px 0 0;
+      color: rgba(255,255,255,.84);
+      font-size: clamp(1rem, 2vw, 1.12rem);
+      line-height: 1.7;
+    }
+
+    .library { margin-top: 34px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 17px; }
+    .section-title { margin: 0; font-size: clamp(1.55rem, 5vw, 2.35rem); line-height: 1.15; letter-spacing: -.04em; }
+    .section-note { margin: 0; color: var(--muted); font-size: .92rem; }
+    .document-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .document-card {
+      display: grid;
+      grid-template-columns: 48px 1fr auto;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      min-height: 82px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      color: var(--ink);
+      background: var(--surface);
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(22, 28, 95, .04);
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .document-card:active { transform: scale(.985); }
+    .document-card:focus-visible { outline: 3px solid rgba(23, 38, 216, .28); outline-offset: 3px; }
+    .doc-icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+    .doc-icon svg { width: 23px; height: 23px; }
+    .doc-copy strong { display: block; font-size: 1rem; line-height: 1.3; }
+    .doc-copy span { display: block; margin-top: 4px; color: var(--muted); font-size: .83rem; }
+    .arrow {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      color: var(--blue);
+      background: #f7f8ff;
+      transition: transform .2s ease, color .2s ease, background .2s ease;
+    }
+    .arrow svg { width: 17px; height: 17px; }
+
+    footer { padding: 32px 2px 10px; color: var(--muted); font-size: .82rem; text-align: center; }
+
+    .viewer-page { display: none; min-height: 100vh; min-height: 100dvh; background: #e9ebf5; }
+    .viewer-page.active { display: flex; flex-direction: column; }
+    .viewer-bar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-height: 66px;
+      padding: 10px 14px calc(10px + env(safe-area-inset-top));
+      color: white;
+      background: var(--blue-strong);
+      box-shadow: 0 7px 28px rgba(13, 24, 173, .24);
+    }
+    .back {
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 13px;
+      color: white;
+      background: rgba(255,255,255,.1);
+      cursor: pointer;
+    }
+    .back svg { width: 20px; height: 20px; }
+    .viewer-heading { min-width: 0; }
+    .viewer-heading h2 { overflow: hidden; margin: 0; font-size: 1rem; line-height: 1.25; text-overflow: ellipsis; white-space: nowrap; }
+    .viewer-heading p { margin: 1px 0 0; color: rgba(255,255,255,.67); font-size: .75rem; }
+    .viewer-stage { flex: 1; display: grid; min-height: 0; padding: 10px; }
+    .document-pages { display: grid; gap: 10px; align-content: start; width: min(100%, 1040px); margin: 0 auto; }
+    .page-image { display: block; width: 100%; height: auto; border-radius: 10px; background: white; box-shadow: 0 8px 28px rgba(22, 28, 95, .14); user-select: none; -webkit-user-drag: none; }
+    .image-frame { display: block; width: min(100%, 1040px); height: auto; margin: 0 auto; border-radius: 14px; background: white; box-shadow: 0 12px 35px rgba(22, 28, 95, .16); }
+    .empty-doc {
+      display: none;
+      place-items: center;
+      min-height: calc(100dvh - 86px);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .empty-doc.active { display: grid; }
+    .empty-inner { width: min(100%, 420px); padding: 36px 24px; }
+    .empty-visual {
+      position: relative;
+      width: 96px;
+      height: 120px;
+      margin: 0 auto 24px;
+      border: 3px solid var(--blue);
+      border-radius: 14px;
+      background: linear-gradient(180deg, var(--blue-soft), white);
+      box-shadow: 12px 12px 0 #e2e6ff;
+    }
+    .empty-visual::before { content: "DOC"; position: absolute; left: 14px; bottom: 16px; color: var(--blue); font-weight: 900; letter-spacing: .06em; }
+    .empty-visual::after { content: ""; position: absolute; left: 14px; right: 14px; top: 24px; height: 26px; border-top: 5px solid #ff5151; border-bottom: 3px solid #c7cdfc; }
+    .empty-inner h3 { margin: 0; font-size: 1.45rem; line-height: 1.2; letter-spacing: -.03em; }
+    .empty-inner p { margin: 12px 0 0; color: var(--muted); }
+    .empty-inner .small { margin-top: 20px; color: #86899c; font-size: .78rem; }
+
+    @media (min-width: 700px) {
+      .page { padding: 0 28px 54px; }
+      .topbar { min-height: 88px; }
+      .hero { padding: 62px 54px 54px; border-radius: 34px; }
+      .library { margin-top: 48px; }
+      .document-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      .document-card { min-height: 100px; padding: 19px; }
+      .viewer-bar { padding-inline: 24px; }
+      .viewer-stage { padding: 18px; }
+      .empty-doc { height: calc(100dvh - 102px); min-height: calc(100dvh - 102px); border-radius: 20px; }
+      .document-pages { gap: 18px; }
+      .image-frame { border-radius: 20px; }
+    }
+
+    @media (min-width: 1040px) {
+      .document-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .document-card:hover { transform: translateY(-3px); border-color: #bcc3ff; box-shadow: 0 16px 30px rgba(22, 28, 95, .1); }
+      .document-card:hover .arrow { color: white; background: var(--blue); transform: translateX(3px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="home" class="shell">
+    <main class="page">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="Мэдээллийн технологийн үндэсний парк — Нүүр">
+          <img src="assets/itpark-logo.png" alt="IT Park Mongolia">
+        </a>
+        <span class="lang">МОН</span>
+      </header>
+
+      <section class="hero" aria-labelledby="hero-title">
+        <p class="eyebrow">Төрийн өмчит үйлдвэрийн газар</p>
+        <h1 id="hero-title">Мэдээллийн техноллогийн үндэсний парк-т</h1>
+        <p class="intro">Мэдээлэл, технологийн үндэсний парк нь мэдээллийн технологи, инновацын салбарын хөгжлийг дэмжих, гарааны компаниудыг бойжуулах, салбарын хүний нөөцийг хөгжүүлэх, үндэсний технологийн бүтээгдэхүүн, үйлчилгээг бий болгох, дотоод болон олон улсын зах зээлд өрсөлдөх чадварыг нэмэгдүүлэх чиглэлээр үйл ажиллагаа явуулдаг төрийн өмчит аж ахуйн тооцоотой үйлдвэрийн газар юм.</p>
+      </section>
+
+      <section class="library" aria-labelledby="library-title">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow" style="color:var(--blue); opacity:1; margin-bottom:10px">Мэдээллийн сан</p>
+            <h2 class="section-title" id="library-title">Баримт бичигтэй танилцах</h2>
+          </div>
+          <p class="section-note">Ангиллаа сонгоно уу</p>
+        </div>
+        <div class="document-grid" id="document-grid"></div>
+      </section>
+      <footer>© <span id="year"></span> Мэдээлэл, технологийн үндэсний парк</footer>
+    </main>
+  </div>
+
+  <section id="viewer" class="viewer-page" aria-label="Баримт бичиг">
+    <div class="viewer-bar">
+      <button class="back" id="back-button" type="button" aria-label="Нүүр хуудас руу буцах"><svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="viewer-heading"><h2 id="viewer-title">Баримт бичиг</h2><p>Унших горим</p></div>
+    </div>
+    <div class="viewer-stage">
+      <div id="document-pages" class="document-pages" aria-label="Баримт бичгийн хуудсууд"></div>
+      <img id="image-frame" class="image-frame" alt="Танилцуулга" hidden>
+      <div id="empty-doc" class="empty-doc">
+        <div class="empty-inner">
+          <div class="empty-visual" aria-hidden="true"></div>
+          <h3 id="empty-title">Баримт бичиг бэлэн болоогүй байна</h3>
+          <p>Энэ ангиллын баримт бичгийг одоогоор оруулаагүй байна.</p>
+          <p class="small">Та нүүр хуудас руу буцаж бусад мэдээллийг үзэх боломжтой.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const documents = [
+      { id: 'taniltsuulga', title: 'Танилцуулга', file: 'documents/taniltsuulga.png', type: 'image', meta: 'Танилцуулга зураг' },
+      { id: 'durem-juram', title: 'Дүрэм, журам', path: 'documents/rendered/durem-juram', pages: 11, type: 'pages', meta: '11 хуудас' },
+      { id: 'tailan-tuluvluguu', title: 'Тайлан, төлөвлөгөө', path: 'documents/rendered/tailan-tuluvluguu', pages: 14, type: 'pages', meta: '14 хуудас' },
+      { id: 'medee-medeelel', title: 'Мэдээ, мэдээлэл', url: 'https://www.gov.mn/org/nitp/news', type: 'link', meta: 'gov.mn вэб хуудас' },
+      { id: 'hudulmuriin-juram', title: 'Хөдөлмөрийн дотоод журам', path: 'documents/rendered/hudulmuriin-juram', pages: 20, type: 'pages', meta: '20 хуудас' },
+      { id: 'ajil-dugneh', title: 'Ажил дүгнэх журам', path: 'documents/rendered/ajil-dugneh', pages: 13, type: 'pages', meta: '13 хуудас' },
+      { id: 'yos-zui', title: 'Ёс зүйн дүрэм', path: 'documents/rendered/yos-zui', pages: 4, type: 'pages', meta: '4 хуудас' },
+      { id: 'sanal-huselt', title: 'Санал хүсэлт илгээх', url: 'mailto:support@itpark.mn', type: 'mailto', meta: 'support@itpark.mn' }
+    ];
+
+    const grid = document.getElementById('document-grid');
+    const home = document.getElementById('home');
+    const viewer = document.getElementById('viewer');
+    const documentPages = document.getElementById('document-pages');
+    const imageFrame = document.getElementById('image-frame');
+    const empty = document.getElementById('empty-doc');
+    const viewerTitle = document.getElementById('viewer-title');
+    const emptyTitle = document.getElementById('empty-title');
+
+    const icon = `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3h7l4 4v14H7a2 2 0 01-2-2V5a2 2 0 012-2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v5h5M9 13h6M9 17h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+    const arrow = `<span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M14 7l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+
+    documents.forEach((doc) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'document-card';
+      button.innerHTML = `<span class="doc-icon">${icon}</span><span class="doc-copy"><strong>${doc.title}</strong><span>${doc.meta}</span></span>${arrow}`;
+      button.addEventListener('click', () => {
+        if (doc.type === 'link') window.open(doc.url, '_blank', 'noopener,noreferrer');
+        else if (doc.type === 'mailto') location.href = doc.url;
+        else openDocument(doc, true);
+      });
+      grid.appendChild(button);
+    });
+
+    async function openDocument(doc, pushState) {
+      viewerTitle.textContent = doc.title;
+      emptyTitle.textContent = `“${doc.title}” баримт бичиг бэлэн болоогүй байна`;
+      home.hidden = true;
+      viewer.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      documentPages.replaceChildren();
+      imageFrame.hidden = true;
+      empty.classList.remove('active');
+      if (pushState) history.pushState({ document: doc.id }, '', `?document=${encodeURIComponent(doc.id)}`);
+      try {
+        const firstPage = doc.type === 'pages' ? `${doc.path}/page-001.jpg` : doc.file;
+        const response = await fetch(firstPage, { method: 'HEAD' });
+        if (!response.ok) throw new Error('missing');
+        if (doc.type === 'image') {
+          imageFrame.src = doc.file;
+          imageFrame.alt = doc.title;
+          imageFrame.hidden = false;
+        } else {
+          for (let page = 1; page <= doc.pages; page += 1) {
+            const img = document.createElement('img');
+            img.className = 'page-image';
+            img.src = `${doc.path}/page-${String(page).padStart(3, '0')}.jpg`;
+            img.alt = `${doc.title} — ${page}-р хуудас`;
+            img.loading = page === 1 ? 'eager' : 'lazy';
+            img.decoding = 'async';
+            img.draggable = false;
+            documentPages.appendChild(img);
+          }
+        }
+      } catch {
+        documentPages.replaceChildren();
+        empty.classList.add('active');
+      }
+      document.getElementById('back-button').focus();
+    }
+
+    function closeViewer(updateHistory = true) {
+      documentPages.replaceChildren();
+      imageFrame.removeAttribute('src');
+      viewer.classList.remove('active');
+      home.hidden = false;
+      document.body.style.overflow = '';
+      if (updateHistory) history.pushState({}, '', location.pathname);
+      document.querySelector(`[data-last-opened]`)?.removeAttribute('data-last-opened');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    document.getElementById('back-button').addEventListener('click', () => closeViewer());
+    window.addEventListener('popstate', syncRoute);
+    window.addEventListener('contextmenu', (event) => { if (viewer.classList.contains('active')) event.preventDefault(); });
+
+    function syncRoute() {
+      const id = new URLSearchParams(location.search).get('document');
+      const doc = documents.find((item) => item.id === id);
+      if (doc) openDocument(doc, false); else closeViewer(false);
+    }
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+    syncRoute();
+  </script>
+</body>
+</html>
