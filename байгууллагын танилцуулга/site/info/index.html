@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="mn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#03062f">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Мэдээллийн самбар — IT Park Mongolia</title>
+  <link rel="icon" href="../assets/itpark-logo.png">
+  <style>
+    :root { --blue:#1d2cff; --navy:#03062f; --ice:#dceaff; --white:#fff; --ink:#101436; --muted:#8790c8; --red:#ff2e42; }
+    * { box-sizing:border-box; }
+    html, body { width:100%; height:100%; margin:0; overflow:hidden; }
+    body { font-family:Inter,"Segoe UI",Arial,sans-serif; color:var(--white); background:radial-gradient(circle at 50% 105%,#2430ff 0 20%,transparent 41%),var(--navy); user-select:none; -webkit-user-select:none; }
+    button, a { font:inherit; -webkit-tap-highlight-color:transparent; }
+    button { color:inherit; }
+    .screen { width:100vw; height:100dvh; min-height:680px; overflow:hidden; }
+    .home { display:grid; grid-template-rows:94px 1fr 42px; gap:14px; padding:20px 28px 14px; }
+    .topbar { display:grid; grid-template-columns:280px 1fr 280px; align-items:center; }
+    .logo { width:184px; height:auto; padding:10px 14px; border-radius:16px; background:#fff; box-shadow:0 10px 28px rgba(0,0,0,.18); }
+    .heading { justify-self:center; margin:0; padding:14px 42px; border-radius:999px; color:var(--blue); background:#fff; font-size:clamp(1.45rem,2.15vw,2.55rem); line-height:1; letter-spacing:.01em; text-transform:uppercase; box-shadow:0 12px 40px rgba(0,0,0,.2); }
+    .clock { justify-self:end; text-align:right; }
+    .clock strong { display:block; font-size:1.65rem; line-height:1; font-variant-numeric:tabular-nums; }
+    .clock span { color:var(--muted); font-size:.86rem; }
+    .menu { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); grid-template-rows:repeat(2,minmax(0,1fr)); gap:18px 22px; min-height:0; }
+    .tile { display:grid; grid-template-rows:40px 1fr; gap:10px; min-width:0; padding:0; border:0; border-radius:22px; background:transparent; cursor:pointer; text-align:center; transition:transform .16s ease,filter .16s ease; }
+    .tile:active { transform:scale(.975); }
+    .tile:focus-visible { outline:5px solid #fff; outline-offset:4px; }
+    .tile-label { align-self:center; overflow:hidden; font-size:clamp(.92rem,1.12vw,1.35rem); font-weight:900; line-height:1.1; text-transform:uppercase; text-overflow:ellipsis; }
+    .tile-face { position:relative; display:grid; place-items:center; min-height:0; overflow:hidden; padding:16px; border:2px solid rgba(255,255,255,.2); border-radius:22px; background:linear-gradient(145deg,#edf5ff,#bfd7fb); box-shadow:0 18px 36px rgba(0,0,0,.25),inset 0 1px 0 white; }
+    .tile-face::after { content:"НЭЭХ"; position:absolute; right:14px; bottom:12px; padding:7px 12px; border-radius:999px; color:#fff; background:rgba(3,6,47,.78); font-size:.7rem; font-weight:900; letter-spacing:.08em; }
+    .thumb { display:block; width:100%; height:100%; object-fit:contain; border-radius:11px; background:#fff; pointer-events:none; -webkit-user-drag:none; }
+    .action-visual { display:grid; place-items:center; width:min(70%,230px); aspect-ratio:1; border-radius:28px; color:var(--blue); background:#fff; box-shadow:0 12px 28px rgba(13,24,173,.14); }
+    .action-visual svg { width:54%; height:54%; }
+    .footer { display:flex; align-items:center; justify-content:center; gap:12px; color:#9ea6e2; font-size:.82rem; letter-spacing:.04em; }
+    .footer i { width:7px; height:7px; border-radius:50%; background:#44df9a; box-shadow:0 0 12px #44df9a; }
+
+    .detail { display:none; position:fixed; inset:0; z-index:10; background:#e8ecf8; color:var(--ink); }
+    .detail.active { display:grid; grid-template-rows:88px 1fr; }
+    .detail-head { display:grid; grid-template-columns:250px 1fr 250px; align-items:center; gap:18px; padding:14px 24px; color:#fff; background:linear-gradient(90deg,#0a1398,#1d2cff); box-shadow:0 8px 30px rgba(13,24,173,.25); }
+    .head-button { display:flex; align-items:center; justify-content:center; gap:10px; min-height:58px; border:1px solid rgba(255,255,255,.2); border-radius:16px; background:rgba(255,255,255,.12); font-weight:900; cursor:pointer; }
+    .head-button svg { width:26px; height:26px; }
+    .detail-title { min-width:0; text-align:center; }
+    .detail-title h2 { overflow:hidden; margin:0; font-size:clamp(1.25rem,1.8vw,2rem); text-overflow:ellipsis; white-space:nowrap; }
+    .detail-title p { margin:3px 0 0; color:#cbd0ff; font-size:.85rem; }
+    .detail-body { display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:20px; min-height:0; padding:20px; }
+    .page-stage { display:grid; place-items:center; min-width:0; min-height:0; overflow:hidden; border-radius:24px; background:#cfd6e9; box-shadow:inset 0 2px 10px rgba(9,14,74,.08); }
+    .page { display:block; max-width:100%; max-height:100%; width:auto; height:auto; border-radius:10px; background:#fff; box-shadow:0 18px 45px rgba(22,28,95,.2); pointer-events:none; -webkit-user-drag:none; }
+    .rail { display:grid; grid-template-rows:1fr auto auto; gap:14px; }
+    .counter { display:grid; place-items:center; align-content:center; min-height:0; padding:22px; border-radius:24px; color:#fff; background:linear-gradient(145deg,#071278,#1d2cff); box-shadow:0 16px 30px rgba(23,38,216,.22); text-align:center; }
+    .counter span { color:#bec5ff; font-size:.9rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    .counter strong { margin:8px 0; font-size:4.8rem; line-height:1; font-variant-numeric:tabular-nums; }
+    .counter small { color:#dce0ff; font-size:1rem; }
+    .nav { min-height:88px; border:0; border-radius:22px; color:#fff; background:#1828df; font-size:1.1rem; font-weight:900; cursor:pointer; box-shadow:0 12px 24px rgba(23,38,216,.18); }
+    .nav:disabled { color:#8a90ad; background:#d5d9e7; box-shadow:none; cursor:not-allowed; }
+    .nav:focus-visible,.head-button:focus-visible { outline:5px solid #ffcb2f; outline-offset:3px; }
+
+    .action-panel { display:none; place-items:center; width:100%; height:100%; padding:40px; text-align:center; }
+    .action-panel.active { display:grid; }
+    .action-card { width:min(820px,92%); padding:56px; border-radius:34px; background:#fff; box-shadow:0 24px 60px rgba(22,28,95,.16); }
+    .action-card .action-visual { margin:0 auto 28px; background:#edf1ff; }
+    .action-card h3 { margin:0; font-size:2.5rem; letter-spacing:-.04em; }
+    .action-card p { margin:14px 0 30px; color:#5f6684; font-size:1.25rem; }
+    .primary-action { display:inline-flex; align-items:center; justify-content:center; min-height:76px; padding:0 34px; border:0; border-radius:20px; color:#fff; background:var(--blue); font-size:1.12rem; font-weight:900; text-decoration:none; }
+    @media (max-aspect-ratio:4/3) { .menu { grid-template-columns:repeat(2,1fr); grid-template-rows:repeat(4,1fr); } .screen { overflow:auto; } .home { height:auto; min-height:100dvh; } }
+    @media (prefers-reduced-motion:reduce) { * { transition:none!important; } }
+  </style>
+</head>
+<body>
+  <main id="home" class="screen home">
+    <header class="topbar">
+      <img class="logo" src="../assets/itpark-logo.png" alt="IT Park Mongolia">
+      <h1 class="heading">Мэдээллийн самбар</h1>
+      <div class="clock"><strong id="time">00:00</strong><span id="date"></span></div>
+    </header>
+    <section class="menu" id="menu" aria-label="Мэдээллийн ангилал"></section>
+    <footer class="footer"><i aria-hidden="true"></i> Үзэх мэдээллээ сонгохын тулд дэлгэцэнд хүрнэ үү</footer>
+  </main>
+
+  <section class="detail" id="detail" aria-label="Баримт бичиг">
+    <header class="detail-head">
+      <button class="head-button" id="home-button" type="button"><svg viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8v10h-6v-7H9v7H3V11z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>НҮҮР</button>
+      <div class="detail-title"><h2 id="detail-title"></h2><p id="detail-subtitle">Баримт бичиг</p></div>
+      <button class="head-button" id="back-button" type="button"><svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>БУЦАХ</button>
+    </header>
+    <div class="detail-body" id="document-view">
+      <div class="page-stage"><img class="page" id="page" alt="Баримт бичгийн хуудас"></div>
+      <aside class="rail">
+        <div class="counter"><span>Хуудас</span><strong id="page-number">1</strong><small id="page-total">нийт 1</small></div>
+        <button class="nav" id="previous" type="button">← ӨМНӨХ</button>
+        <button class="nav" id="next" type="button">ДАРААХ →</button>
+      </aside>
+    </div>
+    <div class="action-panel" id="action-view"><div class="action-card"><div class="action-visual" id="action-icon"></div><h3 id="action-title"></h3><p id="action-text"></p><a class="primary-action" id="action-link" href="#">НЭЭХ</a></div></div>
+  </section>
+
+  <script>
+    const iconExternal = `<svg viewBox="0 0 24 24" fill="none"><path d="M14 4h6v6M20 4l-9 9M18 13v6a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const iconMail = `<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.9"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>`;
+    const items = [
+      { id:'taniltsuulga', title:'Танилцуулга', type:'image', path:'../documents/taniltsuulga.png', pages:1 },
+      { id:'durem-juram', title:'Дүрэм, журам', type:'pages', path:'../documents/rendered/durem-juram', pages:11 },
+      { id:'tailan-tuluvluguu', title:'Тайлан, төлөвлөгөө', type:'pages', path:'../documents/rendered/tailan-tuluvluguu', pages:14 },
+      { id:'medee-medeelel', title:'Мэдээ, мэдээлэл', type:'external', url:'https://www.gov.mn/org/nitp/news', icon:iconExternal },
+      { id:'hudulmuriin-juram', title:'Хөдөлмөрийн дотоод журам', type:'pages', path:'../documents/rendered/hudulmuriin-juram', pages:20 },
+      { id:'ajil-dugneh', title:'Ажил дүгнэх журам', type:'pages', path:'../documents/rendered/ajil-dugneh', pages:13 },
+      { id:'yos-zui', title:'Ёс зүйн дүрэм', type:'pages', path:'../documents/rendered/yos-zui', pages:4 },
+      { id:'sanal-huselt', title:'Санал хүсэлт илгээх', type:'contact', url:'mailto:support@itpark.mn', icon:iconMail }
+    ];
+    const menu=document.getElementById('menu'); const home=document.getElementById('home'); const detail=document.getElementById('detail'); const pageImage=document.getElementById('page'); const documentView=document.getElementById('document-view'); const actionView=document.getElementById('action-view');
+    const detailTitle=document.getElementById('detail-title'); const subtitle=document.getElementById('detail-subtitle'); const pageNumber=document.getElementById('page-number'); const pageTotal=document.getElementById('page-total'); const previous=document.getElementById('previous'); const next=document.getElementById('next');
+    let current=null; let currentPage=1; let idleTimer;
+    const pagePath=(item,page)=>item.type==='image'?item.path:`${item.path}/page-${String(page).padStart(3,'0')}.jpg`;
+    items.forEach(item=>{ const button=document.createElement('button'); button.className='tile'; button.type='button'; const visual=item.type==='pages'||item.type==='image'?`<img class="thumb" src="${pagePath(item,1)}" alt="" loading="eager">`:`<div class="action-visual">${item.icon}</div>`; button.innerHTML=`<span class="tile-label">${item.title}</span><span class="tile-face">${visual}</span>`; button.addEventListener('click',()=>openItem(item)); menu.appendChild(button); });
+    function openItem(item){ current=item; currentPage=1; home.hidden=true; detail.classList.add('active'); detailTitle.textContent=item.title; if(item.type==='external'||item.type==='contact'){ showAction(item); } else { documentView.style.display='grid'; actionView.classList.remove('active'); subtitle.textContent='Зөвхөн унших горим'; renderPage(); } resetIdle(); }
+    function showAction(item){ documentView.style.display='none'; actionView.classList.add('active'); subtitle.textContent=item.type==='contact'?'Холбоо барих':'Албан ёсны эх сурвалж'; document.getElementById('action-icon').innerHTML=item.icon; document.getElementById('action-title').textContent=item.title; document.getElementById('action-text').textContent=item.type==='contact'?'support@itpark.mn хаягаар санал хүсэлтээ илгээнэ үү.':'Мэдээллийн технологийн үндэсний паркийн мэдээ, мэдээллийг gov.mn сайтаас үзнэ үү.'; const link=document.getElementById('action-link'); link.href=item.url; link.textContent=item.type==='contact'?'ИМЭЙЛ ИЛГЭЭХ':'МЭДЭЭ ҮЗЭХ'; }
+    function renderPage(){ pageImage.src=pagePath(current,currentPage); pageImage.alt=`${current.title} — ${currentPage}-р хуудас`; pageNumber.textContent=currentPage; pageTotal.textContent=`нийт ${current.pages}`; previous.disabled=currentPage<=1; next.disabled=currentPage>=current.pages; }
+    function goHome(){ detail.classList.remove('active'); home.hidden=false; current=null; currentPage=1; pageImage.removeAttribute('src'); clearTimeout(idleTimer); }
+    previous.addEventListener('click',()=>{ if(currentPage>1){currentPage--;renderPage();} }); next.addEventListener('click',()=>{ if(currentPage<current.pages){currentPage++;renderPage();} }); document.getElementById('home-button').addEventListener('click',goHome); document.getElementById('back-button').addEventListener('click',goHome);
+    function resetIdle(){ clearTimeout(idleTimer); if(current) idleTimer=setTimeout(goHome,120000); } ['pointerdown','keydown','touchstart'].forEach(name=>window.addEventListener(name,resetIdle,{passive:true}));
+    function updateClock(){ const now=new Date(); document.getElementById('time').textContent=now.toLocaleTimeString('mn-MN',{hour:'2-digit',minute:'2-digit'}); document.getElementById('date').textContent=now.toLocaleDateString('mn-MN',{year:'numeric',month:'long',day:'numeric'}); } updateClock(); setInterval(updateClock,30000);
+    window.addEventListener('contextmenu',event=>event.preventDefault());
+  </script>
+</body>
+</html>
